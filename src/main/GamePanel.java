@@ -1,28 +1,37 @@
 package main;
 
 import engine.KeyHandler;
+import models.Enemy;
 import models.Player;
+import tile.WorldBuilder;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
 
-    //Screen settings
-    final int originalTileSize = 16; //Sprite size
-    final int scale = 3; //scale to resolution
+    //TODO use a yaml file for global properties
 
-    public final int tileSize = originalTileSize * scale; //48x48 pixel size
-    public final int maxScreenCol = 16;
-    public final int maxScreenRow = 12;
+    /*
+    TODO
+        change public finals to private and make getters
+        changed private finals to caps
+     */
+
+    //Screen settings
+    private final int originalTileSize = 16; //Sprite size
+    private final int scale = 3; //scale to resolution
+
+    private final int tileSize = originalTileSize * scale; //48x48 pixel size
+    private final int maxScreenCol = 16;
+    private final int maxScreenRow = 12;
     //16 by 12 of 48x48 pixel sprites
     //Resolution = 768x576
     public final int screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * maxScreenRow;
 
-    public final int maxWorldCol = 50;
-    public final int maxWorldRow = 50;
+    private final int maxWorldCol = 50;
+    private final int maxWorldRow = 50;
     public final int worldWidth = tileSize * maxScreenCol;
     public final int worldHeight = tileSize * maxScreenRow;
 
@@ -31,7 +40,11 @@ public class GamePanel extends JPanel implements Runnable {
     //System
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
-    Player player = new Player(this, keyHandler);
+    WorldBuilder worldBuilder = new WorldBuilder(this);
+
+    //Entinties
+    private Player player = new Player(this, keyHandler);
+    private Enemy enemy = new Enemy(this);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -53,7 +66,6 @@ public class GamePanel extends JPanel implements Runnable {
         long currentTime;
         long timer = 0;
         int drawCount = 0;
-
 
         while(gameThread!=null) {
 
@@ -82,6 +94,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         player.update();
+        enemy.update();
     }
 
     public void paintComponent(Graphics g) {
@@ -90,7 +103,24 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         player.draw(g2);
+        enemy.draw(g2);
 
         g2.dispose();
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public int getMaxWorldCol() {
+        return maxWorldCol;
+    }
+
+    public int getMaxWorldRow() {
+        return maxWorldRow;
+    }
+
+    public int getTileSize() {
+        return tileSize;
     }
 }
