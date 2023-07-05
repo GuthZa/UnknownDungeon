@@ -29,8 +29,8 @@ public class CollisionManager {
                 entityLeftCol = entityLeftWorldX.subtract(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.CEILING);
                 tileNum1 = gamePanel.getWorldBuilder().getMap()[entityLeftCol.intValue()][entityTopRow.intValue()];
                 tileNum2 = gamePanel.getWorldBuilder().getMap()[entityLeftCol.intValue()][entityBottomRow.intValue()];
-                if(gamePanel.getWorldBuilder().getTile(tileNum1).isColliding() ||
-                gamePanel.getWorldBuilder().getTile(tileNum2).isColliding()) {
+                if(gamePanel.getWorldBuilder().getTile(tileNum1).isCollision() ||
+                gamePanel.getWorldBuilder().getTile(tileNum2).isCollision()) {
                     entity.setCollision(true);
                 }
             }
@@ -38,26 +38,26 @@ public class CollisionManager {
                 entityRightCol = entityRightWorldX.subtract(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.CEILING);
                 tileNum1 = gamePanel.getWorldBuilder().getMap()[entityRightCol.intValue()][entityTopRow.intValue()];
                 tileNum2 = gamePanel.getWorldBuilder().getMap()[entityRightCol.intValue()][entityBottomRow.intValue()];
-                if(gamePanel.getWorldBuilder().getTile(tileNum1).isColliding() ||
-                        gamePanel.getWorldBuilder().getTile(tileNum2).isColliding()) {
+                if(gamePanel.getWorldBuilder().getTile(tileNum1).isCollision() ||
+                        gamePanel.getWorldBuilder().getTile(tileNum2).isCollision()) {
                     entity.setCollision(true);
                 }
             }
             case "up" -> {
                 entityTopRow = entityTopWorldY.subtract(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.CEILING);
-                tileNum1 = gamePanel.getWorldBuilder().getMap()[entityTopRow.intValue()][entityRightCol.intValue()];
-                tileNum2 = gamePanel.getWorldBuilder().getMap()[entityTopRow.intValue()][entityLeftCol.intValue()];
-                if(gamePanel.getWorldBuilder().getTile(tileNum1).isColliding() ||
-                        gamePanel.getWorldBuilder().getTile(tileNum2).isColliding()) {
+                tileNum1 = gamePanel.getWorldBuilder().getMap()[entityLeftCol.intValue()][entityTopRow.intValue()];
+                tileNum2 = gamePanel.getWorldBuilder().getMap()[entityRightCol.intValue()][entityTopRow.intValue()];
+                if(gamePanel.getWorldBuilder().getTile(tileNum1).isCollision() ||
+                        gamePanel.getWorldBuilder().getTile(tileNum2).isCollision()) {
                     entity.setCollision(true);
                 }
             }
-            case "bottom" -> {
-                entityBottomRow = entityBottomWorldY.subtract(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.CEILING);
-                tileNum1 = gamePanel.getWorldBuilder().getMap()[entityBottomRow.intValue()][entityRightCol.intValue()];
-                tileNum2 = gamePanel.getWorldBuilder().getMap()[entityBottomRow.intValue()][entityLeftCol.intValue()];
-                if(gamePanel.getWorldBuilder().getTile(tileNum1).isColliding() ||
-                        gamePanel.getWorldBuilder().getTile(tileNum2).isColliding()) {
+            case "down" -> {
+                entityBottomRow = entityBottomWorldY.add(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.CEILING);
+                tileNum1 = gamePanel.getWorldBuilder().getMap()[entityLeftCol.intValue()][entityBottomRow.intValue()];
+                tileNum2 = gamePanel.getWorldBuilder().getMap()[entityRightCol.intValue()][entityBottomRow.intValue()];
+                if(gamePanel.getWorldBuilder().getTile(tileNum1).isCollision() ||
+                        gamePanel.getWorldBuilder().getTile(tileNum2).isCollision()) {
                     entity.setCollision(true);
                 }
             }

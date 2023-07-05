@@ -105,11 +105,8 @@ public class WorldBuilder {
             }
         }
     }
-    public Tile getTile(int index) {
-        return index > 0 && index <= tile.length ? tile[index] : null;
-    }
 
-    public boolean getTileCollision(int index) {
-        return index > 0 && index <= tile.length && tile[index].isColliding();
+    public Tile getTile(int index) {
+        return tile[index];
     }
 }
