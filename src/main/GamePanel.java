@@ -1,15 +1,17 @@
 package main;
 
+import engine.CollisionManager;
 import engine.KeyHandler;
-import models.Enemy;
+import lombok.*;
 import models.Player;
 import tile.WorldBuilder;
 
 import javax.swing.*;
 import java.awt.*;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
+@Getter
+@Setter
 public class GamePanel extends JPanel implements Runnable {
     private static final int FPS = 60;
 
@@ -25,13 +27,13 @@ public class GamePanel extends JPanel implements Runnable {
     private static final int originalTileSize = 16; //Sprite size
     private static final int scale = 3; //scale to resolution
 
-    private static final BigDecimal tileSize = BigDecimal.valueOf(originalTileSize * scale); //48x48 pixel size
+    private final BigDecimal tileSize = BigDecimal.valueOf(originalTileSize * scale); //48x48 pixel size
     private static final int maxScreenCol = 16;
     private static final int maxScreenRow = 12;
     //16 by 12 of 48x48 pixel sprites
     //Resolution = 768x576
-    private static final int screenWidth = tileSize.intValue() * maxScreenCol;
-    private static final int screenHeight = tileSize.intValue() * maxScreenRow;
+    private final int screenWidth = tileSize.intValue() * maxScreenCol;
+    private final int screenHeight = tileSize.intValue() * maxScreenRow;
 
     private final int maxWorldCol = 50;
     private final int maxWorldRow = 50;
@@ -39,13 +41,13 @@ public class GamePanel extends JPanel implements Runnable {
     public final BigDecimal worldHeight = BigDecimal.valueOf((long) tileSize.intValue() * maxScreenRow);
 
     //System
-    KeyHandler keyHandler = new KeyHandler();
-    Thread gameThread;
-    WorldBuilder worldBuilder = new WorldBuilder(this);
+    private KeyHandler keyHandler = new KeyHandler();
+    private Thread gameThread;
+    private WorldBuilder worldBuilder = new WorldBuilder(this);
+    private CollisionManager collisionManager = new CollisionManager(this);
 
     //Entities
     private final Player player = new Player(this, keyHandler);
-    private final Enemy enemy = new Enemy(this);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -95,7 +97,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         player.update();
-        enemy.update();
     }
 
     public void paintComponent(Graphics g) {
@@ -105,32 +106,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         worldBuilder.draw(g2);
         player.draw(g2);
-        enemy.draw(g2);
 
         g2.dispose();
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public int getMaxWorldCol() {
-        return maxWorldCol;
-    }
-
-    public int getMaxWorldRow() {
-        return maxWorldRow;
-    }
-
-    public BigDecimal getTileSize() {
-        return tileSize;
-    }
-
-    public int getScreenWidth() {
-        return screenWidth;
-    }
-
-    public int getScreenHeight() {
-        return screenHeight;
     }
 }

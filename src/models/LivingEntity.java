@@ -1,23 +1,30 @@
 package models;
 
+import lombok.*;
+
+import java.awt.*;
 import java.math.BigDecimal;
 
-abstract class LivingEntity {
+@Getter
+@Setter
+public class LivingEntity {
+
+    private static final int ENTITY_DEFAULT_SPEED = 4;
 
     private BigDecimal worldX, worldY;
-    private BigDecimal speed;
+    private BigDecimal speed = BigDecimal.valueOf(ENTITY_DEFAULT_SPEED);
     private String direction;
+    private final Rectangle collisionArea;
 
-    public void setDefaultValues(int worldX, int worldY, int speed, String direction) {
-        this.worldX = BigDecimal.valueOf(worldX);
-        this.worldY = BigDecimal.valueOf(worldY);
-        this.speed = BigDecimal.valueOf(speed);
+    private boolean collision;
+
+    public LivingEntity(BigDecimal worldX, BigDecimal worldY, Rectangle collisionArea, String direction) {
+        this.worldX = worldX;
+        this.worldY = worldY;
+        this.collisionArea = collisionArea;
         this.direction = direction;
+        this.collision = false;
     }
-    public BigDecimal getWorldX() { return worldX; }
-    public void setWorldX(int worldX) { this.worldX = BigDecimal.valueOf(worldX); }
-    public BigDecimal getWorldY() { return worldY; }
-    public void setWorldY(int worldY) { this.worldY = BigDecimal.valueOf(worldY); }
 
     //Entity movement
     public void moveUp() {
@@ -32,16 +39,4 @@ abstract class LivingEntity {
     public void moveLeft() {
         worldX = worldX.add(speed);
     }
-    public BigDecimal getSpeed() {
-        return speed;
-    }
-    public void setSpeed(int speed) { this.speed = BigDecimal.valueOf(speed); }
-    public String getDirection() {
-        return direction;
-    }
-    public void faceDirection(String direction) {
-        this.direction = direction;
-    }
-
-
 }

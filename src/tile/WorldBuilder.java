@@ -1,5 +1,6 @@
 package tile;
 
+import lombok.Getter;
 import main.GamePanel;
 
 import javax.imageio.ImageIO;
@@ -7,11 +8,11 @@ import java.awt.*;
 import java.io.*;
 import java.math.BigDecimal;
 
+@Getter
 public class WorldBuilder {
-
-    GamePanel gamePanel;
+    private final GamePanel gamePanel;
     private final Tile[] tile;
-    private int[][] map;
+    private final int[][] map;
 
     public WorldBuilder(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
