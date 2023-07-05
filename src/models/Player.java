@@ -4,57 +4,47 @@ import engine.KeyHandler;
 import main.GamePanel;
 
 import java.awt.*;
+import java.math.BigDecimal;
 
 public class Player extends LivingEntity {
+    private static final int PLAYER_DEFAULT_SPEED = 4;
+    private static final String PLAYER_STARTING_DIRECTION = "down";
+    private final int tileSize;
     GamePanel gamePanel;
     KeyHandler keyHandler;
 
-    private int screenX;
-    private int screenY;
+    private final BigDecimal screenX;
+    private final BigDecimal screenY;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
+        tileSize = gamePanel.getTileSize().intValue();
 
-        screenX = gamePanel.screenWidth / 2 - (gamePanel.getTileSize() / 2);
-        screenY = gamePanel.screenHeight / 2 - (gamePanel.getTileSize() / 2);
+        screenX = BigDecimal.valueOf(gamePanel.getScreenWidth() / 2 - (tileSize / 2));
+        screenY = BigDecimal.valueOf(gamePanel.getScreenHeight() / 2 - (tileSize / 2));
 
-        setDefaultValues();
+        this.setDefaultValues(tileSize * 23, tileSize * 23, PLAYER_DEFAULT_SPEED, PLAYER_STARTING_DIRECTION);
     }
-
-    public void setDefaultValues() {
-        worldX = gamePanel.getTileSize() * 23;
-        worldY = gamePanel.getTileSize() * 23;
-        speed = 4;
-        direction = "down";
-    }
-
     public void update() {
         if(keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
-            if (keyHandler.upPressed) {
-                screenY -=speed;
-            } else if (keyHandler.downPressed) {
-                screenY +=speed;
-            } else if (keyHandler.rightPressed) {
-                screenX +=speed;
-            } else if (keyHandler.leftPressed) {
-                screenX -=speed;
-            }
+            if (keyHandler.upPressed) { this.moveUp(); }
+            if (keyHandler.downPressed) { this.moveDown(); }
+            if (keyHandler.rightPressed) { this.moveLeft(); }
+            if (keyHandler.leftPressed) { this.moveRight(); }
         }
     }
-
     public void draw(Graphics2D g2) {
         g2.setColor(Color.white);
-        g2.fillRect(screenX, screenY,gamePanel.getTileSize(),gamePanel.getTileSize());
-
-        g2.drawRect(screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize());
+        g2.fillRect(screenX.intValue(), screenY.intValue(), tileSize, tileSize);
+        g2.drawRect(screenX.intValue(), screenY.intValue(), tileSize, tileSize);
     }
 
-    public int getScreenX() {
+    public BigDecimal getScreenX() {
         return screenX;
     }
 
-    public int getScreenY() {
+    public BigDecimal getScreenY() {
         return screenY;
     }
 
