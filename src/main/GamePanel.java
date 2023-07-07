@@ -4,8 +4,6 @@ import engine.CollisionManager;
 import engine.KeyHandler;
 import lombok.*;
 import models.Player;
-import objects.AssetSetter;
-import objects.Object;
 import objects.ObjectManager;
 import tile.WorldBuilder;
 
@@ -47,14 +45,11 @@ public class GamePanel extends JPanel implements Runnable {
     private KeyHandler keyHandler = new KeyHandler();
     private Thread gameThread;
     private WorldBuilder worldBuilder = new WorldBuilder(this);
+    private ObjectManager objectManager = new ObjectManager(this);
     private CollisionManager collisionManager = new CollisionManager(this);
-    private AssetSetter assetSetter = new AssetSetter(this);
 
     //Entities
     private final Player player = new Player(this, keyHandler);
-
-    ///Objects
-    private ObjectManager[] objectList = new ObjectManager[10];
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -63,10 +58,6 @@ public class GamePanel extends JPanel implements Runnable {
 
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
-    }
-
-    public void setupGame() {
-        assetSetter.setObject();
     }
     public void startGameThread() {
         gameThread = new Thread(this);
@@ -116,14 +107,8 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         worldBuilder.draw(g2);
+        objectManager.draw(g2);
         player.draw(g2);
-
-        for(ObjectManager object : objectList) {
-            if(object != null) {
-                object.draw(g2, this);
-            }
-        }
-
         g2.dispose();
     }
 }

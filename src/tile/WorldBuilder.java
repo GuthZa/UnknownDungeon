@@ -76,7 +76,14 @@ public class WorldBuilder {
     }
 
     public void draw(Graphics2D g2) {
-        int worldCol = 0, worldRow = 0;
+
+        //TODO Re do load map base on camera, make camera a class
+        //Camera class
+        // width, height
+        // x, y -> playerX - width/2;
+
+        int worldCol = 0;
+        int worldRow = 0;
 
         while (worldCol < gamePanel.getMaxWorldCol() && worldRow < gamePanel.getMaxWorldRow()) {
             int tileNum = map[worldCol][worldRow];
