@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import main.GamePanel;
+import models.LivingEntity;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -38,10 +39,6 @@ public class Object {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public String getImageName() {
-        return "resources/objects/"+ this.itemCategory +".png";
     }
     public boolean checkObjectInScreen(GamePanel gamePanel) {
         return
