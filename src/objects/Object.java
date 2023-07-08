@@ -22,11 +22,10 @@ public class Object {
         Door,
         Boots
     }
-    @Setter(AccessLevel.NONE)
     private BufferedImage image;
     private boolean collision;
     private final BigDecimal worldX, worldY;
-    private final Rectangle collisionArea = new Rectangle(0, 0, 48, 48);
+    private static final Rectangle collisionArea = new Rectangle(0, 0, 48, 48);
     public Object(ItemCategory itemCategory, int worldX, int worldY) {
         this.itemCategory = itemCategory;
         this.worldX = BigDecimal.valueOf(worldX);
@@ -41,12 +40,15 @@ public class Object {
         }
     }
 
+    public String getImageName() {
+        return "resources/objects/"+ this.itemCategory +".png";
+    }
     public boolean checkObjectInScreen(GamePanel gamePanel) {
         return
-                worldX.add(gamePanel.getTileSize()).compareTo(gamePanel.getPlayer().getWorldX().add(gamePanel.getPlayer().getScreenX())) > 0 ||
-                worldX.subtract(gamePanel.getTileSize()).compareTo(gamePanel.getPlayer().getWorldX().subtract(gamePanel.getPlayer().getScreenX())) < 0||
-                worldY.add(gamePanel.getTileSize()).compareTo(gamePanel.getPlayer().getWorldY().add(gamePanel.getPlayer().getScreenY())) > 0 ||
-                worldY.subtract(gamePanel.getTileSize()).compareTo(gamePanel.getPlayer().getWorldY().subtract(gamePanel.getPlayer().getScreenY())) < 0;
+                worldX.add(gamePanel.getTileSize()).compareTo(gamePanel.getPlayer().getWorldX().subtract(gamePanel.getPlayer().getScreenX())) > 0 ||
+                worldX.subtract(gamePanel.getTileSize()).compareTo(gamePanel.getPlayer().getWorldX().add(gamePanel.getPlayer().getScreenX())) < 0||
+                worldY.add(gamePanel.getTileSize()).compareTo(gamePanel.getPlayer().getWorldY().subtract(gamePanel.getPlayer().getScreenY())) > 0 ||
+                worldY.subtract(gamePanel.getTileSize()).compareTo(gamePanel.getPlayer().getWorldY().add(gamePanel.getPlayer().getScreenY())) < 0;
     }
 
     public BigDecimal getScreenLeftX(GamePanel gamePanel) {

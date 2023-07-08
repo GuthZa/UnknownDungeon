@@ -1,5 +1,6 @@
 package tile;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,8 +8,8 @@ import java.awt.image.BufferedImage;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class Tile {
-    public BufferedImage image;
-    private boolean collision = false;
-    public void setCollision() { this.collision = true; }
+    private BufferedImage image;
+    private boolean collision;
 }

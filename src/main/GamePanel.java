@@ -25,21 +25,21 @@ public class GamePanel extends JPanel implements Runnable {
      */
 
     //Screen settings
-    private static final int originalTileSize = 16; //Sprite size
-    private static final int scale = 3; //scale to resolution
+    private static final int ORIGINAL_TILE_SIZE = 16; //Sprite size
+    private static final int SCALE = 3; //scale to resolution
 
-    private final BigDecimal tileSize = BigDecimal.valueOf(originalTileSize * scale); //48x48 pixel size
-    private static final int maxScreenCol = 16;
-    private static final int maxScreenRow = 12;
+    private final BigDecimal tileSize = BigDecimal.valueOf(ORIGINAL_TILE_SIZE * SCALE); //48x48 pixel size
+    private static final int MAX_SCREEN_COL = 16;
+    private static final int MAX_SCREEN_ROW = 12;
     //16 by 12 of 48x48 pixel sprites
     //Resolution = 768x576
-    private final int screenWidth = tileSize.intValue() * maxScreenCol;
-    private final int screenHeight = tileSize.intValue() * maxScreenRow;
+    private final int screenWidth = tileSize.intValue() * MAX_SCREEN_COL;
+    private final int screenHeight = tileSize.intValue() * MAX_SCREEN_ROW;
 
     private final int maxWorldCol = 50;
     private final int maxWorldRow = 50;
-    public final BigDecimal worldWidth = BigDecimal.valueOf((long) tileSize.intValue() * maxScreenCol);
-    public final BigDecimal worldHeight = BigDecimal.valueOf((long) tileSize.intValue() * maxScreenRow);
+    public final BigDecimal worldWidth = BigDecimal.valueOf((long) tileSize.intValue() * MAX_SCREEN_COL);
+    public final BigDecimal worldHeight = BigDecimal.valueOf((long) tileSize.intValue() * MAX_SCREEN_ROW);
 
     //System
     private KeyHandler keyHandler = new KeyHandler();
@@ -109,6 +109,7 @@ public class GamePanel extends JPanel implements Runnable {
         worldBuilder.draw(g2);
         objectManager.draw(g2);
         player.draw(g2);
+
         g2.dispose();
     }
 }

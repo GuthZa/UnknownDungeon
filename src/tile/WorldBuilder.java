@@ -24,26 +24,18 @@ public class WorldBuilder {
     }
     private void loadTilesImage() {
         try {
-            tile[0] = new Tile();
-            tile[0].image = ImageIO.read(new File("resources/tiles/grass00.png"));
+            tile[0] = new Tile(ImageIO.read(new File("resources/tiles/grass00.png")), false);
 
-            tile[1] = new Tile();
-            tile[1].image = ImageIO.read(new File("resources/tiles/wall.png"));
-            tile[1].setCollision();
+            tile[1] = new Tile(ImageIO.read(new File("resources/tiles/wall.png")), true);
 
-            tile[2] = new Tile();
-            tile[2].image = ImageIO.read(new File("resources/tiles/water01.png"));
-            tile[2].setCollision();
+            tile[2] = new Tile(ImageIO.read(new File("resources/tiles/water01.png")),true);;
 
-            tile[3] = new Tile();
-            tile[3].image = ImageIO.read(new File("resources/tiles/earth.png"));
+            tile[3] = new Tile(ImageIO.read(new File("resources/tiles/earth.png")), false);
 
-            tile[4] = new Tile();
-            tile[4].image = ImageIO.read(new File("resources/tiles/tree.png"));
-            tile[4].setCollision();
+            tile[4] = new Tile(ImageIO.read(new File("resources/tiles/tree.png")), true);
 
-            tile[5] = new Tile();
-            tile[5].image = ImageIO.read(new File("resources/tiles/road00.png"));
+            tile[5] = new Tile(ImageIO.read(new File("resources/tiles/road00.png")), false);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -102,7 +94,7 @@ public class WorldBuilder {
             worldY.subtract(gamePanel.getTileSize()).compareTo(gamePanel.getPlayer().getWorldY().add(gamePanel.getPlayer().getScreenY())) < 0
             ) {
                 int tileSize = gamePanel.getTileSize().intValue();
-                g2.drawImage(tile[tileNum].image, screenX.intValue(), screenY.intValue(), tileSize, tileSize, null);
+                g2.drawImage(tile[tileNum].getImage(), screenX.intValue(), screenY.intValue(), tileSize, tileSize, null);
             }
             worldCol++;
 
