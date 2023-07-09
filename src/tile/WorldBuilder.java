@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Getter
 public class WorldBuilder {
@@ -107,5 +108,12 @@ public class WorldBuilder {
 
     public Tile getTile(int index) {
         return tile[index];
+    }
+
+    public Tile getTileAtPos(BigDecimal x, BigDecimal y) {
+        x = x.divide(gamePanel.getTileSize(), RoundingMode.DOWN);
+        y = y.divide(gamePanel.getTileSize(), RoundingMode.DOWN);
+
+        return getTile(map[x.intValue()][y.intValue()]);
     }
 }

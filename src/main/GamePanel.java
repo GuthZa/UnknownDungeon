@@ -3,7 +3,9 @@ package main;
 import engine.CollisionManager;
 import engine.KeyHandler;
 import lombok.*;
+import models.LivingEntity;
 import models.Player;
+import objects.Object;
 import objects.ObjectManager;
 import tile.WorldBuilder;
 
@@ -98,6 +100,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
+        player.setCollision(false);
+        collisionManager.checkTile(player);
+        collisionManager.checkObjects(player, objectManager, true);
         player.update();
     }
 

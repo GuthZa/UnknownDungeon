@@ -1,10 +1,9 @@
 package objects;
 
-import lombok.AccessLevel;
+
 import lombok.Getter;
 import lombok.Setter;
 import main.GamePanel;
-import models.LivingEntity;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -17,6 +16,7 @@ import java.math.BigDecimal;
 @Setter
 public class Object {
     private final ItemCategory itemCategory;
+    private boolean grabbed = false;
     enum ItemCategory {
         Key,
         Chest,
@@ -26,8 +26,8 @@ public class Object {
     private BufferedImage image;
     private boolean collision;
     private final BigDecimal worldX, worldY;
-    private static final Rectangle collisionArea = new Rectangle(0, 0, 48, 48);
-    public Object(ItemCategory itemCategory, int worldX, int worldY) {
+    private Rectangle collisionArea;
+    public Object(ItemCategory itemCategory, int worldX, int worldY, BigDecimal tileSize) {
         this.itemCategory = itemCategory;
         this.worldX = BigDecimal.valueOf(worldX);
         this.worldY = BigDecimal.valueOf(worldY);
@@ -39,6 +39,11 @@ public class Object {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.collisionArea = new Rectangle(worldX, worldY, tileSize.intValue(), tileSize.intValue());
+    }
+
+    public String checkCategory() {
+        return this.itemCategory.toString();
     }
     public boolean checkObjectInScreen(GamePanel gamePanel) {
         return
@@ -46,6 +51,13 @@ public class Object {
                 worldX.subtract(gamePanel.getTileSize()).compareTo(gamePanel.getPlayer().getWorldX().add(gamePanel.getPlayer().getScreenX())) < 0||
                 worldY.add(gamePanel.getTileSize()).compareTo(gamePanel.getPlayer().getWorldY().subtract(gamePanel.getPlayer().getScreenY())) > 0 ||
                 worldY.subtract(gamePanel.getTileSize()).compareTo(gamePanel.getPlayer().getWorldY().add(gamePanel.getPlayer().getScreenY())) < 0;
+    }
+
+    public boolean checkObjectByString(String category) {
+        for (ItemCategory itemCategory : ItemCategory.values()) {
+            return category.compareTo(itemCategory.toString()) == 0;
+        }
+        return false;
     }
 
     public BigDecimal getScreenLeftX(GamePanel gamePanel) {

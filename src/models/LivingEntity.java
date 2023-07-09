@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.awt.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -16,7 +17,10 @@ public class LivingEntity {
     private String direction;
     private final Rectangle collisionArea;
 
+    private ArrayList<Object> objectList = new ArrayList<>();
+
     private boolean collision;
+    private int keyNumber = 0;
 
     public LivingEntity(BigDecimal worldX, BigDecimal worldY, Rectangle collisionArea, String direction) {
         this.worldX = worldX;
@@ -24,6 +28,19 @@ public class LivingEntity {
         this.collisionArea = collisionArea;
         this.direction = direction;
         this.collision = false;
+    }
+
+    //Object manager
+    public void addKey(int number){
+        this.keyNumber += number;
+    }
+
+    public void removeKey(int number) {
+        this.keyNumber -= number;
+    }
+
+    public void addItem(Object object) {
+        objectList.add(object);
     }
 
     //Entity movement
