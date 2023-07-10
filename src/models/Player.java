@@ -36,7 +36,10 @@ public class Player extends LivingEntity {
         screenY = BigDecimal.valueOf(gamePanel.getScreenHeight() / 2 - (gamePanel.getTileSize().intValue() / 2));
     }
     public void update() {
-        this.getCollisionArea().setLocation(getWorldX().intValue() + PLAYER_COLLISION_X, getWorldY().intValue() + PLAYER_COLLISION_Y);
+        //this.getCollisionArea().setLocation(getWorldX().intValue() + PLAYER_COLLISION_X, getWorldY().intValue() + PLAYER_COLLISION_Y);
+
+        this.setCollision(false);
+        gamePanel.getCollisionManager().checkTile(this);
         if(keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
             if (keyHandler.upPressed) {
                 setDirection("up");

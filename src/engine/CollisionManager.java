@@ -18,40 +18,53 @@ public class CollisionManager {
 
     public void checkTile(LivingEntity entity) {
 
-        BigDecimal TopLeftCorner = BigDecimal.valueOf(entity.getCollisionArea().getX());
-        BigDecimal BottomLeftCorner =
-                BigDecimal.valueOf(entity.getCollisionArea().getX())
+        BigDecimal LeftWorldX = entity.getWorldX().add(BigDecimal.valueOf(entity.getCollisionArea().getX()));
+        BigDecimal RightWorldX = entity.getWorldX().add(BigDecimal.valueOf(entity.getCollisionArea().getX()))
                 .add(BigDecimal.valueOf(entity.getCollisionArea().getWidth()));
-        BigDecimal TopRightCorner =
-                BigDecimal.valueOf(entity.getCollisionArea().getY())
-                .add(BigDecimal.valueOf(entity.getCollisionArea().getHeight()));
-        BigDecimal BottomRightCorner = TopRightCorner.add(BottomLeftCorner);
+        BigDecimal TopWorldY = entity.getWorldY().add(BigDecimal.valueOf(entity.getCollisionArea().getY()));
+        BigDecimal BottomWorldY = entity.getWorldY().add(BigDecimal.valueOf(entity.getCollisionArea().getY())).add(BigDecimal.valueOf(entity.getCollisionArea().getHeight()));
 
-        Tile tileAtLeft = gamePanel.getWorldBuilder().getTileAtPos(TopLeftCorner.add(gamePanel.getTileSize()), TopLeftCorner);
-
+        BigDecimal entityLeftCol = LeftWorldX.divide(gamePanel.getTileSize(), RoundingMode.DOWN);
+        BigDecimal entityRightCol = RightWorldX.divide(gamePanel.getTileSize(), RoundingMode.DOWN);
+        BigDecimal entityTopRow = TopWorldY.divide(gamePanel.getTileSize(), RoundingMode.DOWN);
+        BigDecimal entityBottomRow = BottomWorldY.divide(gamePanel.getTileSize(), RoundingMode.DOWN);
 
         //TODO Add collision area to tiles ?
+        switch (entity.getDirection()) {
+            case "left" -> {
+                entityLeftCol = LeftWorldX.subtract(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.DOWN);
 
 
-//        if(TopLeftCorner.compareTo(gamePanel.getWorldBuilder().getTile()))
+                if(gamePanel.getWorldBuilder().checkCollision(entityLeftCol, entityTopRow) || gamePanel.getWorldBuilder().checkCollision(entityLeftCol, entityBottomRow)) {
+                    System.out.println("left collision");
+                    entity.setCollision(true);
+                }
+            }
+            case "right" -> {
+                entityRightCol = RightWorldX.add(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.DOWN);
 
+                if(gamePanel.getWorldBuilder().checkCollision(entityRightCol, entityTopRow) || gamePanel.getWorldBuilder().checkCollision(entityRightCol, entityBottomRow)) {
+                    System.out.println("right collision");
+                    entity.setCollision(true);
+                }
+            }
+            case "up" -> {
+                entityTopRow = TopWorldY.subtract(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.DOWN);
 
+                if(gamePanel.getWorldBuilder().checkCollision(entityLeftCol, entityTopRow) || gamePanel.getWorldBuilder().checkCollision(entityRightCol, entityTopRow)) {
+                    System.out.println("up collision");
+                    entity.setCollision(true);
+                }
+            }
+            case "down" -> {
+                entityBottomRow = TopWorldY.add(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.DOWN);
 
-
-//        switch (entity.getDirection()) {
-//            case "left" -> {
-//                System.out.println("collision left");
-//            }
-//            case "right" -> {
-//                System.out.println("collision right");
-//            }
-//            case "up" -> {
-//                System.out.println("collision up");
-//            }
-//            case "down" -> {
-//                System.out.println("collision bottom");
-//            }
-//        }
+                if(gamePanel.getWorldBuilder().checkCollision(entityLeftCol, entityBottomRow) || gamePanel.getWorldBuilder().checkCollision(entityRightCol, entityBottomRow)) {
+                    System.out.println("bottom collision");
+                    entity.setCollision(true);
+                }
+            }
+        }
     }
 
 

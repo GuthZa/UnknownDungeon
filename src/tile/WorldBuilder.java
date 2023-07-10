@@ -116,4 +116,12 @@ public class WorldBuilder {
 
         return getTile(map[x.intValue()][y.intValue()]);
     }
+
+    public int getTileTypeAtPos(BigDecimal x, BigDecimal y) {
+        return map[x.intValue()][y.intValue()];
+    }
+
+    public boolean checkCollision(BigDecimal x, BigDecimal y) {
+        return getTileAtPos(x, y).isCollision();
+    }
 }
