@@ -18,40 +18,99 @@ public class CollisionManager {
     private GamePanel gamePanel;
     public void checkTile(LivingEntity entity, WorldBuilder worldBuilder) {
 
-        BigDecimal entityLeftWorldX = BigDecimal.valueOf(entity.getCollisionArea().getX());
-        BigDecimal entityRightWorldX = entity.getWorldX().add(BigDecimal.valueOf(entity.getCollisionArea().getWidth()));
-        BigDecimal entityTopWorldY = BigDecimal.valueOf(entity.getCollisionArea().getY());
-        BigDecimal entityBottomWorldY = entity.getWorldY().add(BigDecimal.valueOf(entity.getCollisionArea().getY()));
+        System.out.println((int) entity.getCollisionArea().getX() / gamePanel.getTileSize().intValue());
+        System.out.println((int) entity.getCollisionArea().getY() / gamePanel.getTileSize().intValue());
+
+        System.out.println();
 
         switch (entity.getDirection()) {
             case "up" -> {
-                playerCastAreaXPosition = entity.getScreenX().add(playerCollisionAreaX);
-                playerCastAreaYPosition = entity.getScreenY().add(playerCollisionAreaY).add(entity.getSpeed());
+                entity.getCastCollisionArea().setLocation(
+                        (int) entity.getCollisionArea().getX(),
+                        BigDecimal.valueOf(entity.getCollisionArea().getY()).subtract(entity.getSpeed()).intValue()
+                );
 
-                if(entity.getCastCollisionArea().intersects()) {
+                if(entity.getCastCollisionArea().intersects(
+                        worldBuilder.getTileAtWorldPos(
+                                BigDecimal.valueOf(entity.getCastCollisionArea().getX()),
+                                BigDecimal.valueOf(entity.getCastCollisionArea().getY()))
+                                .getCollisionArea()) ||
 
+                        entity.getCastCollisionArea().intersects(
+                                worldBuilder.getTileAtWorldPos(
+                                        BigDecimal.valueOf(entity.getCastCollisionArea().getX()),
+                                        BigDecimal.valueOf(entity.getCastCollisionArea().getY())
+                                                .add(BigDecimal.valueOf(entity.getCastCollisionArea().getWidth())))
+                                        .getCollisionArea())
+                ) {
+                    System.out.println("up collision");
                 }
             }
             case "down" -> {
-                g2.fillRect(
-                        player.getScreenX().add(BigDecimal.valueOf(player.getCollisionArea().getX())).intValue(),
-                        player.getScreenY().add(BigDecimal.valueOf(player.getCollisionArea().getY())).add(player.getSpeed()).intValue(),
-                        (int) player.getCollisionArea().getWidth(),
-                        (int) player.getCollisionArea().getHeight());
+                entity.getCastCollisionArea().setLocation(
+                        (int) entity.getCollisionArea().getX(),
+                        BigDecimal.valueOf(entity.getCollisionArea().getY()).add(entity.getSpeed()).intValue()
+                );
+
+                if(entity.getCastCollisionArea().intersects(
+                        worldBuilder.getTileAtWorldPos(
+                                        BigDecimal.valueOf(entity.getCastCollisionArea().getX()),
+                                        BigDecimal.valueOf(entity.getCastCollisionArea().getY()))
+                                .getCollisionArea()) ||
+
+                        entity.getCastCollisionArea().intersects(
+                                worldBuilder.getTileAtWorldPos(
+                                                BigDecimal.valueOf(entity.getCastCollisionArea().getX()),
+                                                BigDecimal.valueOf(entity.getCastCollisionArea().getY())
+                                                        .add(BigDecimal.valueOf(entity.getCastCollisionArea().getWidth())))
+                                        .getCollisionArea())
+                ) {
+                    System.out.println("down collision");
+                }
             }
             case "left" -> {
-                g2.fillRect(
-                        player.getScreenX().subtract(BigDecimal.valueOf(player.getCollisionArea().getX())).add(player.getSpeed()).intValue(),
-                        player.getScreenY().add(BigDecimal.valueOf(player.getCollisionArea().getY())).intValue(),
-                        (int) player.getCollisionArea().getWidth(),
-                        (int) player.getCollisionArea().getHeight());
+                entity.getCastCollisionArea().setLocation(
+                        BigDecimal.valueOf(entity.getCollisionArea().getX()).subtract(entity.getSpeed()).intValue(),
+                        (int) entity.getCollisionArea().getY()
+                );
+
+                if(entity.getCastCollisionArea().intersects(
+                        worldBuilder.getTileAtWorldPos(
+                                        BigDecimal.valueOf(entity.getCastCollisionArea().getX()),
+                                        BigDecimal.valueOf(entity.getCastCollisionArea().getY()))
+                                .getCollisionArea()) ||
+
+                        entity.getCastCollisionArea().intersects(
+                                worldBuilder.getTileAtWorldPos(
+                                                BigDecimal.valueOf(entity.getCastCollisionArea().getX()),
+                                                BigDecimal.valueOf(entity.getCastCollisionArea().getY())
+                                                        .add(BigDecimal.valueOf(entity.getCastCollisionArea().getWidth())))
+                                        .getCollisionArea())
+                ) {
+                    System.out.println("left collision");
+                }
             }
             case "right" -> {
-                g2.fillRect(
-                        player.getScreenX().add(BigDecimal.valueOf(player.getCollisionArea().getX())).add(player.getSpeed()).intValue(),
-                        player.getScreenY().add(BigDecimal.valueOf(player.getCollisionArea().getY())).intValue(),
-                        (int) player.getCollisionArea().getWidth(),
-                        (int) player.getCollisionArea().getHeight());
+                entity.getCastCollisionArea().setLocation(
+                        BigDecimal.valueOf(entity.getCollisionArea().getX()).add(entity.getSpeed()).intValue(),
+                        (int) entity.getCollisionArea().getY()
+                );
+
+                if(entity.getCastCollisionArea().intersects(
+                        worldBuilder.getTileAtWorldPos(
+                                        BigDecimal.valueOf(entity.getCastCollisionArea().getX()),
+                                        BigDecimal.valueOf(entity.getCastCollisionArea().getY()))
+                                .getCollisionArea()) ||
+
+                        entity.getCastCollisionArea().intersects(
+                                worldBuilder.getTileAtWorldPos(
+                                                BigDecimal.valueOf(entity.getCastCollisionArea().getX()),
+                                                BigDecimal.valueOf(entity.getCastCollisionArea().getY())
+                                                        .add(BigDecimal.valueOf(entity.getCastCollisionArea().getWidth())))
+                                        .getCollisionArea())
+                ) {
+                    System.out.println("right collision");
+                }
             }
         }
 

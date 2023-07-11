@@ -23,12 +23,13 @@ public class Player extends LivingEntity {
 
         setScreenX(BigDecimal.valueOf(gamePanel.getScreenWidth() / 2 - (gamePanel.getTileSize().intValue() / 2)));
         setScreenY(BigDecimal.valueOf(gamePanel.getScreenHeight() / 2 - (gamePanel.getTileSize().intValue() / 2)));
+
+        this.getCollisionArea().setLocation(
+                getScreenX().add(BigDecimal.valueOf(getCollisionArea().getX())).intValue(),
+                getScreenY().add(BigDecimal.valueOf(getCollisionArea().getY())).intValue()
+        );
     }
     public void update() {
-        this.getCollisionArea().setLocation(
-                getWorldX().add(BigDecimal.valueOf(getCollisionArea().getX())).intValue(),
-                getWorldY().add(BigDecimal.valueOf(getCollisionArea().getY())).intValue()
-        );
         if(keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
             if (keyHandler.upPressed) {
                 setDirection("up");
