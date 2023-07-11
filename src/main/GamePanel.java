@@ -12,6 +12,7 @@ import tile.WorldBuilder;
 import javax.swing.*;
 import java.awt.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Getter
 @Setter
@@ -101,7 +102,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         player.setCollision(false);
-        collisionManager.checkTile(player);
+        collisionManager.checkTile(player, worldBuilder);
         collisionManager.checkObjects(player, objectManager, true);
         player.update();
     }

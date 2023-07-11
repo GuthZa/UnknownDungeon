@@ -25,17 +25,17 @@ public class WorldBuilder {
     }
     private void loadTilesImage() {
         try {
-            tile[0] = new Tile(ImageIO.read(new File("resources/tiles/grass00.png")), false);
+            tile[0] = new Tile(ImageIO.read(new File("resources/tiles/grass00.png")), false, new Rectangle(0, 0, 0, 0));
 
-            tile[1] = new Tile(ImageIO.read(new File("resources/tiles/wall.png")), true);
+            tile[1] = new Tile(ImageIO.read(new File("resources/tiles/wall.png")), true, new Rectangle(0, 0, gamePanel.getTileSize().intValue(), gamePanel.getTileSize().intValue()));
 
-            tile[2] = new Tile(ImageIO.read(new File("resources/tiles/water01.png")),true);;
+            tile[2] = new Tile(ImageIO.read(new File("resources/tiles/water01.png")),true, new Rectangle(0, 0, gamePanel.getTileSize().intValue(), gamePanel.getTileSize().intValue()));;
 
-            tile[3] = new Tile(ImageIO.read(new File("resources/tiles/earth.png")), false);
+            tile[3] = new Tile(ImageIO.read(new File("resources/tiles/earth.png")), false, new Rectangle(0, 0, 0, 0));
 
-            tile[4] = new Tile(ImageIO.read(new File("resources/tiles/tree.png")), true);
+            tile[4] = new Tile(ImageIO.read(new File("resources/tiles/tree.png")), true, new Rectangle(16, 18, 16, 30));
 
-            tile[5] = new Tile(ImageIO.read(new File("resources/tiles/road00.png")), false);
+            tile[5] = new Tile(ImageIO.read(new File("resources/tiles/road00.png")), false, new Rectangle(0, 0, 0, 0));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -110,7 +110,7 @@ public class WorldBuilder {
         return tile[index];
     }
 
-    public Tile getTileAtPos(BigDecimal x, BigDecimal y) {
+    public Tile getTileAtWorldPos(BigDecimal x, BigDecimal y) {
         x = x.divide(gamePanel.getTileSize(), RoundingMode.DOWN);
         y = y.divide(gamePanel.getTileSize(), RoundingMode.DOWN);
 
@@ -122,6 +122,6 @@ public class WorldBuilder {
     }
 
     public boolean checkCollision(BigDecimal x, BigDecimal y) {
-        return getTileAtPos(x, y).isCollision();
+        return getTileAtWorldPos(x, y).isCollision();
     }
 }

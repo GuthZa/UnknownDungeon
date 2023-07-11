@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 @Getter
@@ -12,4 +13,6 @@ import java.awt.image.BufferedImage;
 public class Tile {
     private BufferedImage image;
     private boolean collision;
+
+    private Rectangle collisionArea;
 }
