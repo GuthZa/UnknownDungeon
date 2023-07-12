@@ -30,41 +30,41 @@ public class ObjectManager {
 
     public void loadObjects() {
         //Keys
-        objects.add(new Object(Object.ItemCategory.Key,
+        objects.add(new Object(ItemCategory.Key,
                 23 * gamePanel.getTileSize().intValue(),
                 7 * gamePanel.getTileSize().intValue(),
                 gamePanel.getTileSize()));
-        objects.add(new Object(Object.ItemCategory.Key,
+        objects.add(new Object(ItemCategory.Key,
                 23 * gamePanel.getTileSize().intValue(),
                 40 * gamePanel.getTileSize().intValue(),
                 gamePanel.getTileSize()));
-        objects.add(new Object(Object.ItemCategory.Key,
+        objects.add(new Object(ItemCategory.Key,
                 38 * gamePanel.getTileSize().intValue(),
                 8 * gamePanel.getTileSize().intValue(),
                 gamePanel.getTileSize()));
 
         //Doors
-        objects.add(new Object(Object.ItemCategory.Door,
+        objects.add(new Object(ItemCategory.Door,
                 10 * gamePanel.getTileSize().intValue(),
                 11 * gamePanel.getTileSize().intValue(),
                 gamePanel.getTileSize()));
-        objects.add(new Object(Object.ItemCategory.Door,
+        objects.add(new Object(ItemCategory.Door,
                 8 * gamePanel.getTileSize().intValue(),
                 28 * gamePanel.getTileSize().intValue(),
                 gamePanel.getTileSize()));
-        objects.add(new Object(Object.ItemCategory.Door,
+        objects.add(new Object(ItemCategory.Door,
                 12 * gamePanel.getTileSize().intValue(),
                 24 * gamePanel.getTileSize().intValue(),
                 gamePanel.getTileSize()));
 
         //Chest
-        objects.add(new Object(Object.ItemCategory.Chest,
+        objects.add(new Object(ItemCategory.Chest,
                 10 * gamePanel.getTileSize().intValue(),
                 7 * gamePanel.getTileSize().intValue(),
                 gamePanel.getTileSize()));
 
         //Boots
-        objects.add(new Object(Object.ItemCategory.Boots,
+        objects.add(new Object(ItemCategory.Boots,
                 37 * gamePanel.getTileSize().intValue(),
                 42 * gamePanel.getTileSize().intValue(),
                 gamePanel.getTileSize()));

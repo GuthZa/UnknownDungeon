@@ -17,12 +17,7 @@ import java.math.BigDecimal;
 public class Object {
     private final ItemCategory itemCategory;
     private boolean grabbed = false;
-    enum ItemCategory {
-        Key,
-        Chest,
-        Door,
-        Boots
-    }
+
     private BufferedImage image;
     private boolean collision;
     private final BigDecimal worldX, worldY;

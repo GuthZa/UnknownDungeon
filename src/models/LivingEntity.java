@@ -54,6 +54,13 @@ public class LivingEntity {
         objectList.add(object);
     }
 
+    public void setupCastCollisionArea() {
+        this.getCollisionArea().setLocation(
+                getScreenX().add(BigDecimal.valueOf(getCollisionArea().getX())).intValue(),
+                getScreenY().add(BigDecimal.valueOf(getCollisionArea().getY())).intValue()
+        );
+    }
+
     //Entity movement
     public void moveUp() {
         worldY = worldY.subtract(speed);

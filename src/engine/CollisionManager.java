@@ -3,15 +3,15 @@ package engine;
 import lombok.AllArgsConstructor;
 import main.GamePanel;
 import models.LivingEntity;
-import models.Player;
+import objects.ItemCategory;
 import objects.Object;
 import objects.ObjectManager;
 
 import tile.WorldBuilder;
 
-import java.awt.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+;
 
 @AllArgsConstructor
 public class CollisionManager {
@@ -211,7 +211,7 @@ public class CollisionManager {
             if (isPlayer) {
                 if (entity.getCollisionArea().intersects(object.getCollisionArea())) {
                     switch (object.checkCategory()) {
-                        case "Key" -> {
+                        case ItemCategory.Key -> {
                             if (!object.isGrabbed()) {
                                 object.setGrabbed(true);
                                 entity.addKey(1);
