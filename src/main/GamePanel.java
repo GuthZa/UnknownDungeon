@@ -101,9 +101,6 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        player.setCollision(false);
-        collisionManager.checkTile(player, worldBuilder);
-        collisionManager.checkObjects(player, objectManager);
         player.update();
     }
 

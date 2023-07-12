@@ -94,10 +94,10 @@ public class LivingEntity {
         worldY = worldY.add(speed);
     }
     public void moveRight() {
-        worldX = worldX.subtract(speed);
+        worldX = worldX.add(speed);
     }
     public void moveLeft() {
-        worldX = worldX.add(speed);
+        worldX = worldX.subtract(speed);
     }
     private void increaseSpeed() {
          speed = speed.add(BigDecimal.valueOf(LivingEntity.BOOTS_SPEED_INCREASE));

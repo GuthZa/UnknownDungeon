@@ -27,24 +27,35 @@ public class Player extends LivingEntity {
     }
 
     public void update() {
-        updateCollisionArea();
+        //updateCollisionArea();
         if(keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
-            System.out.println(isCollision());
             if (keyHandler.upPressed) {
                 setDirection("up");
-                if(!isCollision()) this.moveUp();
             }
             if (keyHandler.downPressed) {
                 setDirection("down");
-                if(!isCollision()) this.moveDown();
             }
             if (keyHandler.rightPressed) {
                 setDirection("right");
-                if(!isCollision()) this.moveLeft();
             }
             if (keyHandler.leftPressed) {
                 setDirection("left");
-                if(!isCollision()) this.moveRight();
+            }
+        }
+
+        setCollision(false);
+        gamePanel.getCollisionManager().checkTile(this);
+
+        gamePanel.getCollisionManager().checkObjects(this, gamePanel.getObjectManager());
+
+        if(keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
+            if (!isCollision()) {
+                switch (getDirection()) {
+                    case "up" -> moveUp();
+                    case "down" -> moveDown();
+                    case "left" -> moveLeft();
+                    case "right" -> moveRight();
+                }
             }
         }
     }

@@ -114,55 +114,7 @@ public class WorldBuilder {
         return tile[index];
     }
 
-    public Tile getTileAtWorldPos(BigDecimal x, BigDecimal y) {
-        x = x.divide(gamePanel.getTileSize(), RoundingMode.DOWN);
-        y = y.divide(gamePanel.getTileSize(), RoundingMode.DOWN);
-
-        return getTile(map[x.intValue()][y.intValue()]);
-    }
-
-    public Tile getTileNearPlayer(LivingEntity entity) {
-        BigDecimal tileX = entity.getWorldX().subtract(
-                BigDecimal.valueOf(
-                entity.getCastCollisionArea().getX())
-                .add(BigDecimal.valueOf(entity.getCastCollisionArea()
-                        .getWidth()))
-        ).divide(gamePanel.getTileSize(), RoundingMode.DOWN);
-        BigDecimal tileY = entity.getWorldX().subtract(
-                BigDecimal.valueOf(
-                        entity.getCastCollisionArea().getY())
-                .add(BigDecimal.valueOf(entity.getCastCollisionArea()
-                        .getHeight()))
-        ).divide(gamePanel.getTileSize(), RoundingMode.DOWN);
-        return getTile(map[tileX.intValue()][tileY.intValue()]);
-    }
-
-    public void checkTilesNear(LivingEntity entity) {
-        BigDecimal castTopX = BigDecimal.valueOf(entity.getCastCollisionArea().getX());
-        BigDecimal castTopY = BigDecimal.valueOf(entity.getCastCollisionArea().getY());
-        BigDecimal castBottomX = BigDecimal.valueOf(entity.getCastCollisionArea().getX())
-                .add(BigDecimal.valueOf(entity.getCastCollisionArea().getWidth()));
-        BigDecimal castBottomY = BigDecimal.valueOf(entity.getCastCollisionArea().getY())
-                .add(BigDecimal.valueOf(entity.getCastCollisionArea().getHeight()));
-
-        castTopX = castTopX.divide(gamePanel.getTileSize(), RoundingMode.DOWN);
-        castTopY = castTopY.divide(gamePanel.getTileSize(), RoundingMode.DOWN);
-
-        System.out.println(castTopX.intValue());
-        System.out.println(castTopY.intValue());
-        System.out.println(getTileAtWorldPos(castTopX, castTopY).getCollisionArea());
-        System.out.println(getTileAtWorldPos(castTopX, castTopY));
-
-        System.out.println(getTileAtWorldPos(castTopX, castTopY).getCollisionArea().intersects(
-                entity.getCastCollisionArea()
-        ));
-    }
-
     public int getTileTypeAtPos(BigDecimal x, BigDecimal y) {
         return map[x.intValue()][y.intValue()];
-    }
-
-    public boolean checkCollision(BigDecimal x, BigDecimal y) {
-        return getTileAtWorldPos(x, y).isCollision();
     }
 }

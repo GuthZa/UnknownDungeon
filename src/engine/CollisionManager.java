@@ -7,116 +7,101 @@ import models.LivingEntity;
 import objects.Object;
 import objects.ObjectManager;
 
-import tile.WorldBuilder;
-
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 
 @AllArgsConstructor
 public class CollisionManager {
     private GamePanel gamePanel;
-    public void checkTile(LivingEntity entity, WorldBuilder worldBuilder) {
-        worldBuilder.checkTilesNear(entity);
+    public void checkTile(LivingEntity entity) {
+
+        BigDecimal entityLeftWorldX = entity.getWorldX()
+                .add(BigDecimal.valueOf(entity.getCollisionArea().getX()));
+        BigDecimal entityRightWorldX = entity.getWorldX()
+                .add(BigDecimal.valueOf(entity.getCollisionArea().getWidth()));
+        BigDecimal entityTopWorldY = entity.getWorldY()
+                .add(BigDecimal.valueOf(entity.getCollisionArea().getY()));
+        BigDecimal entityBottomWorldY = entity.getWorldY()
+                .add(BigDecimal.valueOf(entity.getCollisionArea().getHeight()));
+
+        BigDecimal entityLeftCol = entityLeftWorldX.divide(gamePanel.getTileSize(), RoundingMode.HALF_EVEN);
+        BigDecimal entityRightCol = entityRightWorldX.divide(gamePanel.getTileSize(), RoundingMode.HALF_EVEN);
+        BigDecimal entityTopRow = entityTopWorldY.divide(gamePanel.getTileSize(), RoundingMode.HALF_EVEN);
+        BigDecimal entityBottomRow = entityBottomWorldY.divide(gamePanel.getTileSize(), RoundingMode.HALF_EVEN);
+
+        BigDecimal tileNum1, tileNum2;
+
+        System.out.println("------------------------------------------------");
 
         switch (entity.getDirection()) {
             case "up" -> {
-                entity.getCastCollisionArea().setLocation(
-                        (int) entity.getCollisionArea().getX(),
-                        BigDecimal.valueOf(
-                                entity.getCollisionArea().getY())
-                                .subtract(entity.getSpeed())
-                                .intValue()
-                );
+                entityTopRow = entityTopWorldY.subtract(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.HALF_EVEN);
+                System.out.println(entityTopRow.intValue());
+                System.out.println(entityLeftCol.intValue());
+                System.out.println(entityRightCol.intValue());
 
-//                System.out.println(worldBuilder.getTileNearPlayer(entity).getCollisionArea().getX());
-//                System.out.println(worldBuilder.getTileNearPlayer(entity).getCollisionArea().getY());
-//                if(entity.getCastCollisionArea().intersects(
-//                        worldBuilder.getTileNearPlayer(entity).getCollisionArea()
-//                )) {
-//                    System.out.println("up collision");
-//                    entity.setCollision(true);
-//                }
+                tileNum1 = BigDecimal.valueOf(gamePanel.getWorldBuilder().getTileTypeAtPos(entityLeftCol, entityTopRow));
+
+                tileNum2 = BigDecimal.valueOf(gamePanel.getWorldBuilder().getTileTypeAtPos(entityRightCol, entityTopRow));
+
+                entity.setCollision(
+                        gamePanel.getWorldBuilder().getTile(tileNum1.intValue())
+                                .isCollision() ||
+                        gamePanel.getWorldBuilder().getTile(tileNum2.intValue())
+                                .isCollision());
             }
             case "down" -> {
-                entity.getCastCollisionArea().setLocation(
-                        (int) entity.getCollisionArea().getX(),
-                        BigDecimal.valueOf(
-                                entity.getCollisionArea().getY())
-                                .add(entity.getSpeed())
-                                .intValue()
-                );
+                entityBottomRow = entityTopWorldY.add(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.HALF_EVEN);
+                System.out.println(entityBottomRow.intValue());
+                System.out.println(entityLeftCol.intValue());
+                System.out.println(entityRightCol.intValue());
 
-//                if(entity.getCastCollisionArea().intersects(
-//                        worldBuilder.getTileAtWorldPos(
-//                                        BigDecimal.valueOf(entity.getCastCollisionArea().getX()),
-//                                        BigDecimal.valueOf(entity.getCastCollisionArea().getY()))
-//                                .getCollisionArea()) ||
-//
-//                        entity.getCastCollisionArea().intersects(
-//                                worldBuilder.getTileAtWorldPos(
-//                                                BigDecimal.valueOf(entity.getCastCollisionArea().getX()),
-//                                                BigDecimal.valueOf(entity.getCastCollisionArea().getY())
-//                                                        .add(BigDecimal.valueOf(entity.getCastCollisionArea().getWidth())))
-//                                        .getCollisionArea())
-//                ) {
-//                    System.out.println("down collision");
-//                    entity.setCollision(true);
-//                }
+                tileNum1 = BigDecimal.valueOf(gamePanel.getWorldBuilder().getTileTypeAtPos(entityLeftCol, entityBottomRow));
+
+                tileNum2 = BigDecimal.valueOf(gamePanel.getWorldBuilder().getTileTypeAtPos(entityRightCol, entityBottomRow));
+
+                entity.setCollision(
+                        gamePanel.getWorldBuilder().getTile(tileNum1.intValue())
+                                .isCollision() ||
+                        gamePanel.getWorldBuilder().getTile(tileNum2.intValue())
+                                .isCollision());
             }
             case "left" -> {
-                entity.getCastCollisionArea().setLocation(
-                        BigDecimal.valueOf(
-                                entity.getCollisionArea().getX())
-                                .subtract(entity.getSpeed())
-                                .intValue(),
-                        (int) entity.getCollisionArea().getY()
-                );
-//                if(entity.getCastCollisionArea().intersects(
-//                        worldBuilder.getTileAtWorldPos(
-//                                        BigDecimal.valueOf(entity.getCastCollisionArea().getX()),
-//                                        BigDecimal.valueOf(entity.getCastCollisionArea().getY()))
-//                                .getCollisionArea()) ||
-//
-//                        entity.getCastCollisionArea().intersects(
-//                                worldBuilder.getTileAtWorldPos(
-//                                                BigDecimal.valueOf(entity.getCastCollisionArea().getX()),
-//                                                BigDecimal.valueOf(entity.getCastCollisionArea().getY())
-//                                                        .add(BigDecimal.valueOf(entity.getCastCollisionArea().getWidth())))
-//                                        .getCollisionArea())
-//                ) {
-//                    System.out.println("left collision");
-//                    entity.setCollision(true);
-//                }
+                entityLeftCol = entityLeftWorldX.add(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.HALF_EVEN);
+                System.out.println(entityLeftCol.intValue());
+                System.out.println(entityTopRow.intValue());
+                System.out.println(entityBottomRow.intValue());
+
+                tileNum1 = BigDecimal.valueOf(gamePanel.getWorldBuilder().getTileTypeAtPos(entityLeftCol, entityTopRow));
+
+                tileNum2 = BigDecimal.valueOf(gamePanel.getWorldBuilder().getTileTypeAtPos(entityLeftCol, entityBottomRow));
+
+                entity.setCollision(
+                        gamePanel.getWorldBuilder().getTile(tileNum1.intValue())
+                                .isCollision() ||
+                        gamePanel.getWorldBuilder().getTile(tileNum2.intValue())
+                                .isCollision());
             }
             case "right" -> {
-                entity.getCastCollisionArea().setLocation(
-                        BigDecimal.valueOf(
-                                entity.getCollisionArea().getX())
-                                .add(entity.getSpeed())
-                                .intValue(),
-                        (int) entity.getCollisionArea().getY()
-                );
+                entityRightCol = entityRightWorldX.add(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.HALF_EVEN);
+                System.out.println(entityRightCol.intValue());
+                System.out.println(entityTopRow.intValue());
+                System.out.println(entityBottomRow.intValue());
 
-//                if(entity.getCastCollisionArea().intersects(
-//                        worldBuilder.getTileAtWorldPos(
-//                                        BigDecimal.valueOf(entity.getCastCollisionArea().getX()),
-//                                        BigDecimal.valueOf(entity.getCastCollisionArea().getY()))
-//                                .getCollisionArea()) ||
-//
-//                        entity.getCastCollisionArea().intersects(
-//                                worldBuilder.getTileAtWorldPos(
-//                                                BigDecimal.valueOf(entity.getCastCollisionArea().getX()),
-//                                                BigDecimal.valueOf(entity.getCastCollisionArea().getY())
-//                                                        .add(BigDecimal.valueOf(entity.getCastCollisionArea().getWidth())))
-//                                        .getCollisionArea())
-//                ) {
-//                    System.out.println("right collision");
-//                    entity.setCollision(true);
-//                }
-           }
+                tileNum1 = BigDecimal.valueOf(gamePanel.getWorldBuilder().getTileTypeAtPos(entityRightCol, entityTopRow));
+
+                tileNum2 = BigDecimal.valueOf(gamePanel.getWorldBuilder().getTileTypeAtPos(entityRightCol, entityBottomRow));
+
+                entity.setCollision(
+                        gamePanel.getWorldBuilder().getTile(tileNum1.intValue())
+                                .isCollision() ||
+                        gamePanel.getWorldBuilder().getTile(tileNum2.intValue())
+                                .isCollision());
+            }
+
         }
     }
-
 
     public void checkObjects(LivingEntity entity, ObjectManager objectManager) {
         for (Object object: objectManager.getObjects()) {
