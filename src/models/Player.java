@@ -17,7 +17,8 @@ public class Player extends LivingEntity {
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel.getTileSize().multiply(BigDecimal.valueOf(23)),
                 gamePanel.getTileSize().multiply(BigDecimal.valueOf(23)),
-                PLAYER_STARTING_DIRECTION);
+                PLAYER_STARTING_DIRECTION,
+                EntityType.Player);
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
 
@@ -26,8 +27,9 @@ public class Player extends LivingEntity {
     }
 
     public void update() {
-
+        updateCollisionArea();
         if(keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
+            System.out.println(isCollision());
             if (keyHandler.upPressed) {
                 setDirection("up");
                 if(!isCollision()) this.moveUp();

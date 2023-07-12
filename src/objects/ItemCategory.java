@@ -4,22 +4,19 @@ import lombok.Getter;
 
 @Getter
 public enum ItemCategory {
-        Key("Key"),
-        Chest("Chest"),
-        Door("Door"),
-        Boots("Boots");
+        Key ("key"), Door ("door"), Chest ("chest"), Boots ("boots");
 
-        private final String key;
+        public final String name;
 
-        ItemCategory(String key) {
-                this.key = key;
+        ItemCategory(String s) {
+                name = s;
+        }
+
+        public boolean equalsName(String otherName) {
+                return name.equals(otherName);
         }
 
         public String toString() {
-                return key;
-        }
-
-        public boolean equalName(String otherName) {
-                return key.equals(otherName);
+                return this.name;
         }
 }

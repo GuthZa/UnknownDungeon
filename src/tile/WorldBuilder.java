@@ -25,17 +25,17 @@ public class WorldBuilder {
     }
     private void loadTilesImage() {
         try {
-            tile[0] = new Tile(ImageIO.read(new File("resources/tiles/grass00.png")), false, new Rectangle(0, 0, 0, 0));
+            tile[0] = new Tile(ImageIO.read(new File("resources/tiles/grass00.png")), false, null);
 
             tile[1] = new Tile(ImageIO.read(new File("resources/tiles/wall.png")), true, new Rectangle(0, 0, gamePanel.getTileSize().intValue(), gamePanel.getTileSize().intValue()));
 
             tile[2] = new Tile(ImageIO.read(new File("resources/tiles/water01.png")),true, new Rectangle(0, 0, gamePanel.getTileSize().intValue(), gamePanel.getTileSize().intValue()));;
 
-            tile[3] = new Tile(ImageIO.read(new File("resources/tiles/earth.png")), false, new Rectangle(0, 0, 0, 0));
+            tile[3] = new Tile(ImageIO.read(new File("resources/tiles/earth.png")), false, null);
 
             tile[4] = new Tile(ImageIO.read(new File("resources/tiles/tree.png")), true, new Rectangle(16, 18, 16, 30));
 
-            tile[5] = new Tile(ImageIO.read(new File("resources/tiles/road00.png")), false, new Rectangle(0, 0, 0, 0));
+            tile[5] = new Tile(ImageIO.read(new File("resources/tiles/road00.png")), false, null);
 
         } catch (IOException e) {
             e.printStackTrace();

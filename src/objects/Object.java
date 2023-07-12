@@ -37,25 +37,26 @@ public class Object {
         this.collisionArea = new Rectangle(worldX, worldY, tileSize.intValue(), tileSize.intValue());
     }
 
-    public String checkCategory() {
-        return this.itemCategory.toString();
+    public ItemCategory checkCategory() {
+        return this.itemCategory;
     }
     public boolean checkObjectInScreen(GamePanel gamePanel) {
         return
-                worldX.add(gamePanel.getTileSize()).compareTo(gamePanel.getPlayer().getWorldX().subtract(gamePanel.getPlayer().getScreenX())) > 0 ||
-                worldX.subtract(gamePanel.getTileSize()).compareTo(gamePanel.getPlayer().getWorldX().add(gamePanel.getPlayer().getScreenX())) < 0||
-                worldY.add(gamePanel.getTileSize()).compareTo(gamePanel.getPlayer().getWorldY().subtract(gamePanel.getPlayer().getScreenY())) > 0 ||
-                worldY.subtract(gamePanel.getTileSize()).compareTo(gamePanel.getPlayer().getWorldY().add(gamePanel.getPlayer().getScreenY())) < 0;
+                worldX.add(gamePanel.getTileSize())
+                        .compareTo(gamePanel.getPlayer().getWorldX()
+                                .subtract(gamePanel.getPlayer().getScreenX())) > 0 ||
+                worldX.subtract(gamePanel.getTileSize())
+                        .compareTo(gamePanel.getPlayer().getWorldX()
+                                .add(gamePanel.getPlayer().getScreenX())) < 0 ||
+                worldY.add(gamePanel.getTileSize())
+                        .compareTo(gamePanel.getPlayer().getWorldY()
+                                .subtract(gamePanel.getPlayer().getScreenY())) > 0 ||
+                worldY.subtract(gamePanel.getTileSize())
+                        .compareTo(gamePanel.getPlayer().getWorldY()
+                                .add(gamePanel.getPlayer().getScreenY())) < 0;
     }
 
-    public boolean checkObjectByString(String category) {
-        for (ItemCategory itemCategory : ItemCategory.values()) {
-            return category.compareTo(itemCategory.toString()) == 0;
-        }
-        return false;
-    }
-
-    public BigDecimal getScreenLeftX(GamePanel gamePanel) {
+    public BigDecimal getScreenX(GamePanel gamePanel) {
         return worldX.subtract(gamePanel.getPlayer().getWorldX().subtract(gamePanel.getPlayer().getScreenY()));
     }
     public BigDecimal getScreenRightX(GamePanel gamePanel) {

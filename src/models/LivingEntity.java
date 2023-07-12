@@ -6,6 +6,8 @@ import java.awt.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import objects.Object;
+
 @Getter
 @Setter
 public class LivingEntity {
@@ -17,47 +19,70 @@ public class LivingEntity {
     private static final int PLAYER_COLLISION_WIDTH = 32;
     private static final int PLAYER_COLLISION_HEIGHT = 32;
 
+    private static final int BOOTS_SPEED_INCREASE = 2;
+
     private BigDecimal worldX, worldY;
     private BigDecimal screenX, screenY;
 
     private BigDecimal speed = BigDecimal.valueOf(ENTITY_DEFAULT_SPEED);
     private String direction;
     private final Rectangle collisionArea;
-    private Rectangle castCollisionArea;
+    private final Rectangle castCollisionArea;
 
     private ArrayList<Object> objectList = new ArrayList<>();
 
     private boolean collision;
     private int keyNumber = 0;
 
-    public LivingEntity(BigDecimal worldX, BigDecimal worldY, String direction) {
+    private EntityType entityType;
+
+    public LivingEntity(BigDecimal worldX, BigDecimal worldY, String direction, EntityType type) {
         this.worldX = worldX;
         this.worldY = worldY;
         this.direction = direction;
         this.collision = false;
+        this.entityType = type;
 
         //TODO Change the collision area and cast collision are when adding monsters
-        this.collisionArea = new Rectangle(PLAYER_COLLISION_X, PLAYER_COLLISION_Y, PLAYER_COLLISION_WIDTH, PLAYER_COLLISION_HEIGHT);
-        this.castCollisionArea = new Rectangle(0, 0, PLAYER_COLLISION_WIDTH, PLAYER_COLLISION_HEIGHT);
+
+        //The collision area is based of Screen Position
+        this.collisionArea = new Rectangle(
+                PLAYER_COLLISION_X, PLAYER_COLLISION_Y,
+                PLAYER_COLLISION_WIDTH, PLAYER_COLLISION_HEIGHT
+        );
+        this.castCollisionArea = new Rectangle(0, 0,
+                PLAYER_COLLISION_WIDTH, PLAYER_COLLISION_HEIGHT);
     }
 
     //Object manager
-    public void addKey(int number){
-        this.keyNumber += number;
+    private void addKey(){
+        this.keyNumber++;
     }
 
-    public void removeKey(int number) {
-        this.keyNumber -= number;
+    private void removeKey() {
+        this.keyNumber--;
     }
 
-    public void addItem(Object object) {
-        objectList.add(object);
+    public void interactObject(Object object) {
+        switch (object.getItemCategory()) {
+            case Boots -> {
+                increaseSpeed(BOOTS_SPEED_INCREASE);
+                objectList.add(object);
+            }
+            case Key -> {
+                addKey();
+            }
+            case Door -> {
+                removeKey();
+            }
+        }
     }
 
-    public void setupCastCollisionArea() {
-        this.getCollisionArea().setLocation(
-                getScreenX().add(BigDecimal.valueOf(getCollisionArea().getX())).intValue(),
-                getScreenY().add(BigDecimal.valueOf(getCollisionArea().getY())).intValue()
+    //Collision management
+    public void updateCollisionArea() {
+        getCollisionArea().setLocation(
+                getScreenX().add(BigDecimal.valueOf(PLAYER_COLLISION_X)).intValue(),
+                getScreenY().add(BigDecimal.valueOf(PLAYER_COLLISION_Y)).intValue()
         );
     }
 
@@ -73,5 +98,8 @@ public class LivingEntity {
     }
     public void moveLeft() {
         worldX = worldX.add(speed);
+    }
+    private void increaseSpeed(int speedToIncrease) {
+         speed = speed.add(BigDecimal.valueOf(speedToIncrease));
     }
 }

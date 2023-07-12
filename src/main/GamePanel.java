@@ -103,7 +103,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         player.setCollision(false);
         collisionManager.checkTile(player, worldBuilder);
-        collisionManager.checkObjects(player, objectManager, true);
+        collisionManager.checkObjects(player, objectManager);
         player.update();
     }
 
@@ -115,6 +115,22 @@ public class GamePanel extends JPanel implements Runnable {
         worldBuilder.draw(g2);
         objectManager.draw(g2);
         player.draw(g2);
+
+        g2.setColor(Color.red);
+        g2.fillRect(
+                BigDecimal.valueOf(player.getCollisionArea().getX()).intValue(),
+                BigDecimal.valueOf(player.getCollisionArea().getY()).intValue(),
+                (int) player.getCollisionArea().getWidth(),
+                (int) player.getCollisionArea().getHeight()
+        );
+
+        g2.setColor(Color.cyan);
+        g2.fillRect(
+                BigDecimal.valueOf(player.getCastCollisionArea().getX()).intValue(),
+                BigDecimal.valueOf(player.getCastCollisionArea().getY()).intValue(),
+                (int) player.getCollisionArea().getWidth(),
+                (int) player.getCollisionArea().getHeight()
+        );
 
         g2.dispose();
     }
