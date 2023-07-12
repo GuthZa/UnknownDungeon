@@ -66,7 +66,7 @@ public class LivingEntity {
     public void interactObject(Object object) {
         switch (object.getItemCategory()) {
             case Boots -> {
-                increaseSpeed(BOOTS_SPEED_INCREASE);
+                increaseSpeed();
                 objectList.add(object);
             }
             case Key -> {
@@ -81,8 +81,8 @@ public class LivingEntity {
     //Collision management
     public void updateCollisionArea() {
         getCollisionArea().setLocation(
-                getScreenX().add(BigDecimal.valueOf(PLAYER_COLLISION_X)).intValue(),
-                getScreenY().add(BigDecimal.valueOf(PLAYER_COLLISION_Y)).intValue()
+                getWorldX().add(BigDecimal.valueOf(PLAYER_COLLISION_X)).intValue(),
+                getWorldY().add(BigDecimal.valueOf(PLAYER_COLLISION_Y)).intValue()
         );
     }
 
@@ -99,7 +99,7 @@ public class LivingEntity {
     public void moveLeft() {
         worldX = worldX.add(speed);
     }
-    private void increaseSpeed(int speedToIncrease) {
-         speed = speed.add(BigDecimal.valueOf(speedToIncrease));
+    private void increaseSpeed() {
+         speed = speed.add(BigDecimal.valueOf(LivingEntity.BOOTS_SPEED_INCREASE));
     }
 }

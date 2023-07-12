@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
