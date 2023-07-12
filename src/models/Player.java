@@ -50,12 +50,10 @@ public class Player extends LivingEntity {
 
         if(keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
             if (!isCollision()) {
-                switch (getDirection()) {
-                    case "up" -> moveUp();
-                    case "down" -> moveDown();
-                    case "left" -> moveLeft();
-                    case "right" -> moveRight();
-                }
+                if(keyHandler.upPressed)moveUp();
+                if(keyHandler.downPressed)moveDown();
+                if(keyHandler.leftPressed)moveLeft();
+                if(keyHandler.rightPressed)moveRight();
             }
         }
     }
