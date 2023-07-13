@@ -102,6 +102,4 @@ public class CollisionManager {
     private boolean checkIntersection(LivingEntity entity, Object object) {
         return entity.getCollisionArea().intersects(object.getCollisionArea());
     }
-
-
 }
