@@ -32,14 +32,10 @@ public class CollisionManager {
 
         BigDecimal tileNum1, tileNum2;
 
-        System.out.println("------------------------------------------------");
 
         switch (entity.getDirection()) {
             case "up" -> {
                 entityTopRow = entityTopWorldY.subtract(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.HALF_EVEN);
-                System.out.println(entityTopRow.intValue());
-                System.out.println(entityLeftCol.intValue());
-                System.out.println(entityRightCol.intValue());
 
                 tileNum1 = BigDecimal.valueOf(gamePanel.getWorldBuilder().getTileTypeAtPos(entityLeftCol, entityTopRow));
 
@@ -53,9 +49,6 @@ public class CollisionManager {
             }
             case "down" -> {
                 entityBottomRow = entityTopWorldY.add(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.HALF_EVEN);
-                System.out.println(entityBottomRow.intValue());
-                System.out.println(entityLeftCol.intValue());
-                System.out.println(entityRightCol.intValue());
 
                 tileNum1 = BigDecimal.valueOf(gamePanel.getWorldBuilder().getTileTypeAtPos(entityLeftCol, entityBottomRow));
 
@@ -69,10 +62,6 @@ public class CollisionManager {
             }
             case "left" -> {
                 entityLeftCol = entityLeftWorldX.add(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.HALF_EVEN);
-                System.out.println(entityLeftCol.intValue());
-                System.out.println(entityTopRow.intValue());
-                System.out.println(entityBottomRow.intValue());
-
                 tileNum1 = BigDecimal.valueOf(gamePanel.getWorldBuilder().getTileTypeAtPos(entityLeftCol, entityTopRow));
 
                 tileNum2 = BigDecimal.valueOf(gamePanel.getWorldBuilder().getTileTypeAtPos(entityLeftCol, entityBottomRow));
@@ -85,9 +74,6 @@ public class CollisionManager {
             }
             case "right" -> {
                 entityRightCol = entityRightWorldX.add(entity.getSpeed()).divide(gamePanel.getTileSize(), RoundingMode.HALF_EVEN);
-                System.out.println(entityRightCol.intValue());
-                System.out.println(entityTopRow.intValue());
-                System.out.println(entityBottomRow.intValue());
 
                 tileNum1 = BigDecimal.valueOf(gamePanel.getWorldBuilder().getTileTypeAtPos(entityRightCol, entityTopRow));
 
@@ -99,7 +85,6 @@ public class CollisionManager {
                         gamePanel.getWorldBuilder().getTile(tileNum2.intValue())
                                 .isCollision());
             }
-
         }
     }
 
