@@ -26,9 +26,15 @@ public class Player extends LivingEntity {
         setScreenY(BigDecimal.valueOf(gamePanel.getScreenHeight() / 2 - (gamePanel.getTileSize().intValue() / 2)));
     }
 
+    public KeyHandler getKeyHandler() {
+        return keyHandler;
+    }
+
     public void update() {
         //updateCollisionArea();
         if(keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
+
+            //TODO give player 8 positions to move - use compass
             if (keyHandler.upPressed) {
                 setDirection("up");
             }

@@ -1,7 +1,11 @@
 package engine;
 
+import lombok.Getter;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+@Getter
 public class KeyHandler implements KeyListener {
     public boolean upPressed;
     public boolean downPressed;

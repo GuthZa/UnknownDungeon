@@ -6,6 +6,7 @@ import java.awt.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import main.GamePanel;
 import objects.Object;
 
 @Getter
@@ -79,11 +80,31 @@ public class LivingEntity {
     }
 
     //Collision management
-    public void updateCollisionArea() {
-        getCollisionArea().setLocation(
-                getWorldX().add(BigDecimal.valueOf(PLAYER_COLLISION_X)).intValue(),
-                getWorldY().add(BigDecimal.valueOf(PLAYER_COLLISION_Y)).intValue()
-        );
+    public BigDecimal getLeftWorldX() {
+        return this.getWorldX()
+                .add(BigDecimal.valueOf(
+                        this.getCollisionArea().getX()));
+    }
+
+    public BigDecimal getRightWorldX() {
+        return this.getWorldX()
+                .add(BigDecimal.valueOf(
+                        this.getCollisionArea().getWidth()));
+    }
+
+    public BigDecimal getTopWorldY() {
+        return this.getWorldY()
+                .add(BigDecimal.valueOf(
+                        this.getCollisionArea().getY()));
+    }
+    public BigDecimal getBottomWorldY() {
+        return this.getWorldY()
+                .add(BigDecimal.valueOf(
+                        this.getCollisionArea().getHeight()));
+    }
+
+    public boolean checkCollision() {
+        return false;
     }
 
     //Entity movement
