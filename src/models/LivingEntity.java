@@ -55,6 +55,17 @@ public class LivingEntity {
                 PLAYER_COLLISION_WIDTH, PLAYER_COLLISION_HEIGHT);
     }
 
+    /*
+
+   TODO RE-DO MOVEMENT BASED ON POKEMON RED//BLUE
+
+   move a block with each click
+   speed increases the time that passes with each movement
+
+   need to remake time calculation function?
+
+     */
+
     //Object manager
     private void addKey(){
         this.keyNumber++;

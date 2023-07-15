@@ -4,8 +4,6 @@ import lombok.Getter;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 public class KeyHandler implements KeyListener {
