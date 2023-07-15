@@ -32,19 +32,17 @@ public class Player extends LivingEntity {
 
     public void update() {
         //updateCollisionArea();
-        if(keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
-
-            //TODO give player 8 positions to move - use compass
-            if (keyHandler.upPressed) {
+        if(keyHandler.isUpPressed() || keyHandler.isDownPressed() || keyHandler.isLeftPressed() || keyHandler.isRightPressed()) {
+            if (keyHandler.isUpPressed()) {
                 setDirection("up");
             }
-            if (keyHandler.downPressed) {
+            else if (keyHandler.isDownPressed()) {
                 setDirection("down");
             }
-            if (keyHandler.rightPressed) {
+            else if (keyHandler.isRightPressed()) {
                 setDirection("right");
             }
-            if (keyHandler.leftPressed) {
+            else if (keyHandler.isLeftPressed()) {
                 setDirection("left");
             }
         }
@@ -54,12 +52,13 @@ public class Player extends LivingEntity {
 
         gamePanel.getCollisionManager().checkObjects(this, gamePanel.getObjectManager());
 
-        if(keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
+
+        if(keyHandler.isUpPressed() || keyHandler.isDownPressed() || keyHandler.isLeftPressed() || keyHandler.isRightPressed()) {
             if (!isCollision()) {
-                if(keyHandler.upPressed)moveUp();
-                if(keyHandler.downPressed)moveDown();
-                if(keyHandler.leftPressed)moveLeft();
-                if(keyHandler.rightPressed)moveRight();
+                if(keyHandler.isUpPressed()) moveUp();
+                else if(keyHandler.isDownPressed()) moveDown();
+                else if(keyHandler.isLeftPressed()) moveLeft();
+                else if(keyHandler.isRightPressed()) moveRight();
             }
         }
     }
