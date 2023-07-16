@@ -14,6 +14,8 @@ public class Player extends LivingEntity {
     private final GamePanel gamePanel;
     private final KeyHandler keyHandler;
 
+    private boolean isMoving = false;
+
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel.getTileSize().multiply(BigDecimal.valueOf(23)),
                 gamePanel.getTileSize().multiply(BigDecimal.valueOf(23)),
@@ -31,19 +33,30 @@ public class Player extends LivingEntity {
     }
 
     public void update() {
-        //updateCollisionArea();
-        if(keyHandler.isUpPressed() || keyHandler.isDownPressed() || keyHandler.isLeftPressed() || keyHandler.isRightPressed()) {
-            if (keyHandler.isUpPressed()) {
-                setDirection("up");
-            }
-            else if (keyHandler.isDownPressed()) {
-                setDirection("down");
-            }
-            else if (keyHandler.isRightPressed()) {
-                setDirection("right");
-            }
-            else if (keyHandler.isLeftPressed()) {
-                setDirection("left");
+
+        String desiredDirection = getDirection();
+        if(isKeyPressed()) {
+            if (isMoving) {
+                if (keyHandler.isUpPressed()) {
+                    desiredDirection = "up";
+                } else if (keyHandler.isDownPressed()) {
+                    desiredDirection = "down";
+                } else if (keyHandler.isRightPressed()) {
+                    desiredDirection = "right";
+                } else if (keyHandler.isLeftPressed()) {
+                    desiredDirection = "left";
+                }
+                if (desiredDirection.equals(this.getDirection())) {
+                    switch (desiredDirection) {
+                        case "up" -> System.out.println("up");
+                        case "down" -> System.out.println("down");
+                        case "left" -> System.out.println("left");
+                        case "right" -> System.out.println("right");
+                    }
+                } else {
+                    setDirection(desiredDirection);
+                    isMoving = true;
+                }
             }
         }
 
@@ -54,11 +67,11 @@ public class Player extends LivingEntity {
 
 
         if(keyHandler.isUpPressed() || keyHandler.isDownPressed() || keyHandler.isLeftPressed() || keyHandler.isRightPressed()) {
-            if (!isCollision()) {
-                if(keyHandler.isUpPressed()) moveUp();
-                else if(keyHandler.isDownPressed()) moveDown();
-                else if(keyHandler.isLeftPressed()) moveLeft();
-                else if(keyHandler.isRightPressed()) moveRight();
+            if (!isCollision() && !isMoving()) {
+                if(keyHandler.isUpPressed()) move("up");
+                else if(keyHandler.isDownPressed()) move("down");
+                else if(keyHandler.isLeftPressed()) move("left");
+                else if(keyHandler.isRightPressed()) move("right");
             }
         }
     }
@@ -66,5 +79,10 @@ public class Player extends LivingEntity {
         g2.setColor(Color.white);
         g2.fillRect(getScreenX().intValue(), getScreenY().intValue(), gamePanel.getTileSize().intValue(), gamePanel.getTileSize().intValue());
         g2.drawRect(getScreenX().intValue(), getScreenY().intValue(), gamePanel.getTileSize().intValue(), gamePanel.getTileSize().intValue());
+    }
+
+    private boolean isKeyPressed() {
+        return keyHandler.isUpPressed() || keyHandler.isDownPressed() ||
+                keyHandler.isLeftPressed() || keyHandler.isRightPressed();
     }
 }

@@ -114,22 +114,14 @@ public class LivingEntity {
                         this.getCollisionArea().getHeight()));
     }
 
-    public boolean checkCollision() {
-        return false;
-    }
-
     //Entity movement
-    public void moveUp() {
-        worldY = worldY.subtract(speed);
-    }
-    public void moveDown() {
-        worldY = worldY.add(speed);
-    }
-    public void moveRight() {
-        worldX = worldX.add(speed);
-    }
-    public void moveLeft() {
-        worldX = worldX.subtract(speed);
+    public void move(String direction) {
+        switch (direction) {
+            case "up" -> worldY = worldY.subtract(speed);
+            case "down" -> worldY = worldY.add(speed);
+            case "left" -> worldX = worldX.subtract(speed);
+            case "right" -> worldX = worldX.add(speed);
+        }
     }
     private void increaseSpeed() {
          speed = speed.add(BigDecimal.valueOf(LivingEntity.BOOTS_SPEED_INCREASE));
