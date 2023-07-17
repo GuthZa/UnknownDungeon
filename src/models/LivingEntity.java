@@ -23,6 +23,7 @@ public class LivingEntity {
     private static final int BOOTS_SPEED_INCREASE = 2;
 
     private BigDecimal worldX, worldY;
+    private BigDecimal movementWorldX, movementWorld;
     private BigDecimal screenX, screenY;
 
     private BigDecimal speed = BigDecimal.valueOf(ENTITY_DEFAULT_SPEED);
