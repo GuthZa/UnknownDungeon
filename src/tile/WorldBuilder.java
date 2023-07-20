@@ -84,20 +84,7 @@ public class WorldBuilder {
 
             BigDecimal screenY = worldY.subtract(gamePanel.getPlayer().getWorldY()).add(gamePanel.getPlayer().getScreenY());
 
-            if(
-            worldX.add(gamePanel.getTileSize())
-                    .compareTo(gamePanel.getPlayer().getWorldX()
-                            .subtract(gamePanel.getPlayer().getScreenX())) > 0 &&
-            worldX.subtract(gamePanel.getTileSize())
-                    .compareTo(gamePanel.getPlayer().getWorldX()
-                            .add(gamePanel.getPlayer().getScreenX())) < 0 &&
-            worldY.add(gamePanel.getTileSize())
-                    .compareTo(gamePanel.getPlayer().getWorldY()
-                            .subtract(gamePanel.getPlayer().getScreenY())) > 0 &&
-            worldY.subtract(gamePanel.getTileSize())
-                    .compareTo(gamePanel.getPlayer().getWorldY()
-                            .add(gamePanel.getPlayer().getScreenY())) < 0
-            ) {
+            if(tileInScreen(worldX, worldY)) {
                 int tileSize = gamePanel.getTileSize().intValue();
                 g2.drawImage(tile[tileNum].getImage(), screenX.intValue(), screenY.intValue(), tileSize, tileSize, null);
             }
@@ -110,12 +97,22 @@ public class WorldBuilder {
         }
     }
 
+    private boolean tileInScreen(BigDecimal worldX, BigDecimal worldY) {
+        return worldX.add(gamePanel.getTileSize())
+                .compareTo(gamePanel.getPlayer().getWorldX()
+                        .subtract(gamePanel.getPlayer().getScreenX())) > 0 &&
+                worldX.subtract(gamePanel.getTileSize())
+                        .compareTo(gamePanel.getPlayer().getWorldX()
+                                .add(gamePanel.getPlayer().getScreenX())) < 0 &&
+                worldY.add(gamePanel.getTileSize())
+                        .compareTo(gamePanel.getPlayer().getWorldY()
+                                .subtract(gamePanel.getPlayer().getScreenY())) > 0 &&
+                worldY.subtract(gamePanel.getTileSize())
+                        .compareTo(gamePanel.getPlayer().getWorldY()
+                                .add(gamePanel.getPlayer().getScreenY())) < 0;
+    }
     public Tile getTile(int index) {
         return tile[index];
-    }
-
-    public int getTileTypeAtPos(BigDecimal x, BigDecimal y) {
-        return map[x.intValue()][y.intValue()];
     }
 
     public Tile getTileAt(BigDecimal x, BigDecimal y) {

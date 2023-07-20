@@ -29,10 +29,6 @@ public class Player extends LivingEntity {
         setScreenY(BigDecimal.valueOf(gamePanel.getScreenHeight() / 2 - (gamePanel.getTileSize().intValue() / 2)));
     }
 
-    public KeyHandler getKeyHandler() {
-        return keyHandler;
-    }
-
     //TODO refactor function update
     public void update() {
         if(isMoving && !characterReachedPosition()) {
@@ -42,7 +38,10 @@ public class Player extends LivingEntity {
         if (isKeyPressed()){
             if (checkIfCharacterIsFacingPosition()) {
                 setDesiredMovement();
-                if(gamePanel.getCollisionManager().checkMovementPossible(this)) {
+                if(gamePanel.getCollisionManager()
+                        .canMoveTo(getMovementWorldX(), getMovementWorldY()) &&
+                !gamePanel.getObjectManager()
+                        .checkObjectAt(getMovementWorldX(), getMovementWorldY())) {
                     setMoving(true);
                     move(getDirection());
                     return;

@@ -17,11 +17,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 @Getter
-@Setter
 public class ObjectManager {
 
     private final GamePanel gamePanel;
-    private final ArrayList<Object> objects = new ArrayList<Object>();
+    private final ArrayList<Object> objects = new ArrayList<>();
 
     public ObjectManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -31,59 +30,68 @@ public class ObjectManager {
     public void loadObjects() {
         //Keys
         objects.add(new Object(ItemCategory.Key,
-                23 * gamePanel.getTileSize().intValue(),
-                7 * gamePanel.getTileSize().intValue(),
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(23)),
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(7)),
                 gamePanel.getTileSize()));
         objects.add(new Object(ItemCategory.Key,
-                23 * gamePanel.getTileSize().intValue(),
-                40 * gamePanel.getTileSize().intValue(),
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(23)),
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(40)),
                 gamePanel.getTileSize()));
         objects.add(new Object(ItemCategory.Key,
-                38 * gamePanel.getTileSize().intValue(),
-                8 * gamePanel.getTileSize().intValue(),
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(38)),
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(8)),
                 gamePanel.getTileSize()));
 
         //Doors
         objects.add(new Object(ItemCategory.Door,
-                10 * gamePanel.getTileSize().intValue(),
-                11 * gamePanel.getTileSize().intValue(),
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(10)),
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(11)),
                 gamePanel.getTileSize()));
         objects.add(new Object(ItemCategory.Door,
-                8 * gamePanel.getTileSize().intValue(),
-                28 * gamePanel.getTileSize().intValue(),
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(8)),
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(28)),
                 gamePanel.getTileSize()));
         objects.add(new Object(ItemCategory.Door,
-                12 * gamePanel.getTileSize().intValue(),
-                24 * gamePanel.getTileSize().intValue(),
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(12)),
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(24)),
                 gamePanel.getTileSize()));
 
         //Chest
         objects.add(new Object(ItemCategory.Chest,
-                10 * gamePanel.getTileSize().intValue(),
-                7 * gamePanel.getTileSize().intValue(),
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(10)),
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(7)),
                 gamePanel.getTileSize()));
 
         //Boots
         objects.add(new Object(ItemCategory.Boots,
-                37 * gamePanel.getTileSize().intValue(),
-                42 * gamePanel.getTileSize().intValue(),
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(37)),
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(42)),
                 gamePanel.getTileSize()));
     }
     public void draw(Graphics2D g2) {
-
        for (Object obj : objects) {
            if (obj.checkObjectInScreen(gamePanel)) {
-               BigDecimal screenX = obj.getWorldX().subtract(gamePanel.getPlayer().getWorldX()).add(gamePanel.getPlayer().getScreenX());
-               BigDecimal screenY = obj.getWorldY().subtract(gamePanel.getPlayer().getWorldY()).add(gamePanel.getPlayer().getScreenY());
+               BigDecimal screenX = obj.getWorldX()
+                       .subtract(gamePanel.getPlayer().getWorldX())
+                       .add(gamePanel.getPlayer().getScreenX());
+               BigDecimal screenY = obj.getWorldY()
+                       .subtract(gamePanel.getPlayer().getWorldY())
+                       .add(gamePanel.getPlayer().getScreenY());
 
-               if(!obj.isGrabbed()) {
-                   g2.drawImage(obj.getImage(), screenX.intValue(), screenY.intValue(), gamePanel.getTileSize().intValue(), gamePanel.getTileSize().intValue(), null);
-               }
+               g2.drawImage(obj.getImage(),
+                       screenX.intValue(), screenY.intValue(),
+                       gamePanel.getTileSize().intValue(),
+                       gamePanel.getTileSize().intValue(), null);
            }
        }
    }
 
-   public Object getObjectByIndex(int index) {
-        return index < objects.size() && index >= 0 ? objects.get(index) : null;
+   public boolean checkObjectAt(BigDecimal worldX, BigDecimal worldY) {
+       for (Object obj : objects) {
+           if(worldX.equals(obj.getWorldX()) && worldY.equals(obj.getWorldY())) {
+               return true;
+           }
+       }
+       return false;
    }
 }
