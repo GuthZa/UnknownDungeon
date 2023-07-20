@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.Key;
 
 @Getter
 public class KeyHandler implements KeyListener {
@@ -11,6 +12,9 @@ public class KeyHandler implements KeyListener {
     private boolean downPressed;
     private boolean leftPressed;
     private boolean rightPressed;
+    private boolean interactPressed;
+    private boolean backPressed;
+
     @Override
     public synchronized void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP)
@@ -21,6 +25,10 @@ public class KeyHandler implements KeyListener {
             downPressed = true;
         else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT)
             rightPressed = true;
+        else if(e.getKeyCode() == KeyEvent.VK_J)
+            interactPressed = true;
+        else if(e.getKeyCode() == KeyEvent.VK_K)
+            backPressed = true;
      }
 
     @Override
@@ -33,6 +41,10 @@ public class KeyHandler implements KeyListener {
             downPressed = false;
         else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT)
             rightPressed = false;
+        else if(e.getKeyCode() == KeyEvent.VK_J)
+            interactPressed = false;
+        else if(e.getKeyCode() == KeyEvent.VK_K)
+            backPressed = false;
     }
 
     @Override

@@ -29,8 +29,6 @@ public class LivingEntity {
 
     private BigDecimal speed = BigDecimal.valueOf(ENTITY_DEFAULT_SPEED);
     private String direction;
-    private final Rectangle collisionArea;
-    private final Rectangle castCollisionArea;
 
     private ArrayList<Object> objectList = new ArrayList<>();
 
@@ -47,16 +45,6 @@ public class LivingEntity {
         this.direction = direction;
         this.collision = false;
         this.entityType = type;
-
-        //TODO Change the collision area and cast collision are when adding monsters
-
-        //The collision area is based of Screen Position
-        this.collisionArea = new Rectangle(
-                PLAYER_COLLISION_X, PLAYER_COLLISION_Y,
-                PLAYER_COLLISION_WIDTH, PLAYER_COLLISION_HEIGHT
-        );
-        this.castCollisionArea = new Rectangle(0, 0,
-                PLAYER_COLLISION_WIDTH, PLAYER_COLLISION_HEIGHT);
     }
 
     //Object manager
@@ -81,30 +69,6 @@ public class LivingEntity {
                 removeKey();
             }
         }
-    }
-
-    //Collision management
-    public BigDecimal getLeftWorldX() {
-        return this.getWorldX()
-                .add(BigDecimal.valueOf(
-                        this.getCollisionArea().getX()));
-    }
-
-    public BigDecimal getRightWorldX() {
-        return this.getWorldX()
-                .add(BigDecimal.valueOf(
-                        this.getCollisionArea().getWidth()));
-    }
-
-    public BigDecimal getTopWorldY() {
-        return this.getWorldY()
-                .add(BigDecimal.valueOf(
-                        this.getCollisionArea().getY()));
-    }
-    public BigDecimal getBottomWorldY() {
-        return this.getWorldY()
-                .add(BigDecimal.valueOf(
-                        this.getCollisionArea().getHeight()));
     }
 
     //Entity movement

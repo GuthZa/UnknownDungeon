@@ -2,7 +2,6 @@ package engine;
 
 import lombok.AllArgsConstructor;
 import main.GamePanel;
-import objects.Object;
 
 import java.math.BigDecimal;
 
@@ -16,14 +15,4 @@ public class CollisionManager {
                 .getTileAt(worldX, worldY)
                 .isCollision();
     }
-
-//    public void checkObjectAt(BigDecimal worldX, BigDecimal worldY) {
-//        for (Object object: gamePanel.getObjectManager().getObjects()) {
-//            if(object.getWorldX().equals(worldX) &&
-//            object.getWorldY().equals(worldY)) {
-//                entity.interactObject(object);
-//                objectManager.getObjects().remove(object);
-//            }
-//        }
-//    }
 }

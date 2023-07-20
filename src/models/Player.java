@@ -29,27 +29,19 @@ public class Player extends LivingEntity {
         setScreenY(BigDecimal.valueOf(gamePanel.getScreenHeight() / 2 - (gamePanel.getTileSize().intValue() / 2)));
     }
 
-    //TODO refactor function update
     public void update() {
         if(isMoving && !characterReachedPosition()) {
             move(getDirection());
             return;
         }
-        if (isKeyPressed()){
-            if (checkIfCharacterIsFacingPosition()) {
-                setDesiredMovement();
-                if(gamePanel.getCollisionManager()
-                        .canMoveTo(getMovementWorldX(), getMovementWorldY()) &&
-                !gamePanel.getObjectManager()
-                        .checkObjectAt(getMovementWorldX(), getMovementWorldY())) {
-                    setMoving(true);
-                    move(getDirection());
-                    return;
-                }
-                cancelMovement();
-            }
-            setDirection(desiredDirection);
-        }
+//        if(keyHandler.isInteractPressed()) {
+//            setDesiredMovement();
+//            if (gamePanel.getObjectManager()
+//                    .checkObjectAt(getMovementWorldX(), getMovementWorldY())) {
+//
+//            }
+//        }
+        if (isMovementKeyPressed()){ checkIfCharacterIsFacingPosition(); }
     }
     public void draw(Graphics2D g2) {
         g2.setColor(Color.white);
@@ -57,7 +49,7 @@ public class Player extends LivingEntity {
         g2.drawRect(getScreenX().intValue(), getScreenY().intValue(), gamePanel.getTileSize().intValue(), gamePanel.getTileSize().intValue());
     }
 
-    private boolean isKeyPressed() {
+    private boolean isMovementKeyPressed() {
         return  keyHandler.isUpPressed() ||
                 keyHandler.isDownPressed() ||
                 keyHandler.isLeftPressed() ||
@@ -71,7 +63,20 @@ public class Player extends LivingEntity {
                 getMovementWorldY().compareTo(getWorldY()) == 0;
     }
 
-    private boolean checkIfCharacterIsFacingPosition() {
+    private void checkCollision() {
+        setDesiredMovement();
+        if(gamePanel.getCollisionManager()
+                .canMoveTo(getMovementWorldX(), getMovementWorldY()) &&
+                !gamePanel.getObjectManager()
+                        .checkObjectAt(getMovementWorldX(), getMovementWorldY())) {
+            setMoving(true);
+            move(getDirection());
+            return;
+        }
+        cancelMovement();
+    }
+
+    private void checkIfCharacterIsFacingPosition() {
         if (keyHandler.isUpPressed()) {
             desiredDirection = "up";
         } else if (keyHandler.isDownPressed()) {
@@ -81,7 +86,8 @@ public class Player extends LivingEntity {
         } else if (keyHandler.isLeftPressed()) {
             desiredDirection = "left";
         }
-        return desiredDirection.equals(getDirection());
+        if(desiredDirection.equals(getDirection())) checkCollision();
+        setDirection(desiredDirection);
     }
 
     private void cancelMovement() {

@@ -31,42 +31,34 @@ public class ObjectManager {
         //Keys
         objects.add(new Object(ItemCategory.Key,
                 gamePanel.getTileSize().multiply(BigDecimal.valueOf(23)),
-                gamePanel.getTileSize().multiply(BigDecimal.valueOf(7)),
-                gamePanel.getTileSize()));
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(7))));
         objects.add(new Object(ItemCategory.Key,
                 gamePanel.getTileSize().multiply(BigDecimal.valueOf(23)),
-                gamePanel.getTileSize().multiply(BigDecimal.valueOf(40)),
-                gamePanel.getTileSize()));
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(40))));
         objects.add(new Object(ItemCategory.Key,
                 gamePanel.getTileSize().multiply(BigDecimal.valueOf(38)),
-                gamePanel.getTileSize().multiply(BigDecimal.valueOf(8)),
-                gamePanel.getTileSize()));
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(8))));
 
         //Doors
         objects.add(new Object(ItemCategory.Door,
                 gamePanel.getTileSize().multiply(BigDecimal.valueOf(10)),
-                gamePanel.getTileSize().multiply(BigDecimal.valueOf(11)),
-                gamePanel.getTileSize()));
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(11))));
         objects.add(new Object(ItemCategory.Door,
                 gamePanel.getTileSize().multiply(BigDecimal.valueOf(8)),
-                gamePanel.getTileSize().multiply(BigDecimal.valueOf(28)),
-                gamePanel.getTileSize()));
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(28))));
         objects.add(new Object(ItemCategory.Door,
                 gamePanel.getTileSize().multiply(BigDecimal.valueOf(12)),
-                gamePanel.getTileSize().multiply(BigDecimal.valueOf(24)),
-                gamePanel.getTileSize()));
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(24))));
 
         //Chest
         objects.add(new Object(ItemCategory.Chest,
                 gamePanel.getTileSize().multiply(BigDecimal.valueOf(10)),
-                gamePanel.getTileSize().multiply(BigDecimal.valueOf(7)),
-                gamePanel.getTileSize()));
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(7))));
 
         //Boots
         objects.add(new Object(ItemCategory.Boots,
                 gamePanel.getTileSize().multiply(BigDecimal.valueOf(37)),
-                gamePanel.getTileSize().multiply(BigDecimal.valueOf(42)),
-                gamePanel.getTileSize()));
+                gamePanel.getTileSize().multiply(BigDecimal.valueOf(42))));
     }
     public void draw(Graphics2D g2) {
        for (Object obj : objects) {

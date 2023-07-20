@@ -115,13 +115,6 @@ public class GamePanel extends JPanel implements Runnable {
         player.draw(g2);
 
         g2.setColor(Color.red);
-
-        g2.fillRect(
-                player.getScreenX().add(BigDecimal.valueOf(8)).intValue(),
-                player.getScreenY().add(BigDecimal.valueOf(16)).intValue(),
-                (int) player.getCollisionArea().getWidth(),
-                (int) player.getCollisionArea().getHeight()
-        );
         g2.dispose();
     }
 }
