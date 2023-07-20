@@ -33,12 +33,11 @@ public class Player extends LivingEntity {
         return keyHandler;
     }
 
+    //TODO refactor function update
     public void update() {
-        if(isMoving) {
-            if (!characterReachedPosition()) {
-                move(getDirection());
-                return;
-            }
+        if(isMoving && !characterReachedPosition()) {
+            move(getDirection());
+            return;
         }
         if (isKeyPressed()){
             if (checkIfCharacterIsFacingPosition()) {
@@ -66,7 +65,7 @@ public class Player extends LivingEntity {
                 keyHandler.isRightPressed();
     }
 
-    //TODO change to state changer -> moving, standing, fighting, trading
+    //TODO Maybe change to state changer -> moving, standing, fighting, trading
 
     private boolean characterReachedPosition() {
         return getMovementWorldX().compareTo(getWorldX()) == 0 &&
