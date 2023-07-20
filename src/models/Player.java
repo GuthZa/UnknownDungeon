@@ -3,6 +3,7 @@ package models;
 import engine.KeyHandler;
 import lombok.*;
 import main.GamePanel;
+import objects.Object;
 
 import java.awt.*;
 import java.math.BigDecimal;
@@ -34,13 +35,20 @@ public class Player extends LivingEntity {
             move(getDirection());
             return;
         }
-//        if(keyHandler.isInteractPressed()) {
-//            setDesiredMovement();
-//            if (gamePanel.getObjectManager()
-//                    .checkObjectAt(getMovementWorldX(), getMovementWorldY())) {
-//
-//            }
-//        }
+        if(keyHandler.isInteractPressed()) {
+            setDesiredMovement();
+            if (gamePanel.getObjectManager()
+                    .checkObjectAt(getMovementWorldX(), getMovementWorldY())) {
+                //Check this function not to give player the ability to remove items
+
+
+                Object obj = gamePanel.getObjectManager().
+                        getObjectAt(getMovementWorldX(), getMovementWorldY());
+                interactObject(obj);
+                gamePanel.getObjectManager().removeObject(obj);
+            }
+            cancelMovement();
+        }
         if (isMovementKeyPressed()){ checkIfCharacterIsFacingPosition(); }
     }
     public void draw(Graphics2D g2) {
@@ -104,5 +112,22 @@ public class Player extends LivingEntity {
     }
     private void setMoving(boolean movement) {
         this.isMoving = movement;
+    }
+
+
+    //Object manager
+    public void interactObject(Object object) {
+        switch (object.getItemCategory()) {
+            case Boots -> {
+                increaseSpeed();
+                getObjectList().add(object);
+            }
+            case Key -> {
+                addKey();
+            }
+            case Door -> {
+                removeKey();
+            }
+        }
     }
 }

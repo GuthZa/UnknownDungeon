@@ -33,9 +33,10 @@ public class LivingEntity {
     private ArrayList<Object> objectList = new ArrayList<>();
 
     private boolean collision;
-    private int keyNumber = 0;
 
     private EntityType entityType;
+
+    private int keyNumber = 0;
 
     public LivingEntity(BigDecimal worldX, BigDecimal worldY, String direction, EntityType type) {
         this.worldX = worldX;
@@ -47,28 +48,13 @@ public class LivingEntity {
         this.entityType = type;
     }
 
-    //Object manager
-    private void addKey(){
+    //Object Manager
+    protected void addKey(){
         this.keyNumber++;
     }
 
-    private void removeKey() {
+    protected void removeKey() {
         this.keyNumber--;
-    }
-
-    public void interactObject(Object object) {
-        switch (object.getItemCategory()) {
-            case Boots -> {
-                increaseSpeed();
-                objectList.add(object);
-            }
-            case Key -> {
-                addKey();
-            }
-            case Door -> {
-                removeKey();
-            }
-        }
     }
 
     //Entity movement
@@ -80,7 +66,7 @@ public class LivingEntity {
             case "right" -> worldX = worldX.add(speed);
         }
     }
-    private void increaseSpeed() {
+    protected void increaseSpeed() {
          speed = speed.add(BigDecimal.valueOf(LivingEntity.BOOTS_SPEED_INCREASE));
     }
 }

@@ -80,10 +80,34 @@ public class ObjectManager {
 
    public boolean checkObjectAt(BigDecimal worldX, BigDecimal worldY) {
        for (Object obj : objects) {
-           if(worldX.equals(obj.getWorldX()) && worldY.equals(obj.getWorldY())) {
+           if(obj.getWorldX().equals(worldX) && obj.getWorldY().equals(worldY)) {
                return true;
            }
        }
        return false;
+   }
+
+   public Object getObjectAt(BigDecimal worldX, BigDecimal worldY) {
+       for (Object obj : objects) {
+           if(obj.getWorldX().equals(worldX) && obj.getWorldY().equals(worldY)) {
+               return obj;
+           }
+       }
+       return null;
+   }
+
+   public int getObjectIndexAt(BigDecimal worldX, BigDecimal worldY) {
+        int index = 0;
+       for (Object obj : objects) {
+           if(obj.getWorldX().equals(worldX) && obj.getWorldY().equals(worldY)) {
+               return index;
+           }
+           index++;
+       }
+       return -1;
+   }
+
+   public void removeObject(Object object) {
+        objects.remove(object);
    }
 }
