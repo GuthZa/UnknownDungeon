@@ -117,4 +117,8 @@ public class WorldBuilder {
     public int getTileTypeAtPos(BigDecimal x, BigDecimal y) {
         return map[x.intValue()][y.intValue()];
     }
+
+    public Tile getTileAt(BigDecimal x, BigDecimal y) {
+        return getTile(map[x.divide(gamePanel.getTileSize(), RoundingMode.DOWN).intValue()][y.divide(gamePanel.getTileSize(), RoundingMode.DOWN).intValue()]);
+    }
 }

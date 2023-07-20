@@ -14,6 +14,13 @@ import java.math.RoundingMode;
 @AllArgsConstructor
 public class CollisionManager {
     private GamePanel gamePanel;
+
+
+    public boolean checkMovementPossible(LivingEntity entity){
+        return !gamePanel.getWorldBuilder().getTileAt(
+                entity.getMovementWorldX(), entity.getMovementWorldY())
+                .isCollision();
+    }
     public void checkTile(LivingEntity entity) {
 
         BigDecimal entityLeftCol = entity.getLeftWorldX()
