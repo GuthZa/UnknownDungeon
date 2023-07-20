@@ -23,7 +23,8 @@ public class LivingEntity {
     private static final int BOOTS_SPEED_INCREASE = 2;
 
     private BigDecimal worldX, worldY;
-    private BigDecimal movementWorldX, movementWorld;
+    //Name TBD - position to help with checking collision and movement
+    private BigDecimal movementWorldX, movementWorldY;
     private BigDecimal screenX, screenY;
 
     private BigDecimal speed = BigDecimal.valueOf(ENTITY_DEFAULT_SPEED);
@@ -41,6 +42,8 @@ public class LivingEntity {
     public LivingEntity(BigDecimal worldX, BigDecimal worldY, String direction, EntityType type) {
         this.worldX = worldX;
         this.worldY = worldY;
+        this.movementWorldX = worldX;
+        this.movementWorldY = worldY;
         this.direction = direction;
         this.collision = false;
         this.entityType = type;

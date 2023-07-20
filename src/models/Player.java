@@ -4,6 +4,7 @@ import engine.KeyHandler;
 import lombok.*;
 import main.GamePanel;
 
+import javax.swing.text.Style;
 import java.awt.*;
 import java.math.BigDecimal;
 
@@ -36,27 +37,22 @@ public class Player extends LivingEntity {
     public void update() {
         if(checkCharacterIsMoving()) {
             move(getDirection());
-        } else if (isKeyPressed() && checkIfCharacterIsFacingPosition()) {
-            //check collision
-            setMoving(true);
-        } else {
-            setDesiredDirection(getDirection());
+            return;
+        }
+        if (isKeyPressed()){
+            if (checkIfCharacterIsFacingPosition()) {
+                //check collision
+                setMoving(true);
+                move(getDirection());
+            } else {
+                setDirection(desiredDirection);
+            }
         }
 
         setCollision(false);
         gamePanel.getCollisionManager().checkTile(this);
 
         gamePanel.getCollisionManager().checkObjects(this, gamePanel.getObjectManager());
-
-
-//        if(keyHandler.isUpPressed() || keyHandler.isDownPressed() || keyHandler.isLeftPressed() || keyHandler.isRightPressed()) {
-//            if (!isCollision() && !isMoving()) {
-//                if(keyHandler.isUpPressed()) move("up");
-//                else if(keyHandler.isDownPressed()) move("down");
-//                else if(keyHandler.isLeftPressed()) move("left");
-//                else if(keyHandler.isRightPressed()) move("right");
-//            }
-//        }
     }
     public void draw(Graphics2D g2) {
         g2.setColor(Color.white);
@@ -71,8 +67,18 @@ public class Player extends LivingEntity {
                 keyHandler.isRightPressed();
     }
 
+    //TODO change to state changer -> moving, standing, fighting, trading
+
     private boolean checkCharacterIsMoving() {
-        return isMoving() && getMovementWorldX().compareTo(getWorldX()) != 0;
+        System.out.println("-------------------");
+        System.out.println(isMoving());
+        System.out.println(getMovementWorldX().compareTo(getWorldX()) != 0 );
+        System.out.println(getMovementWorldY().compareTo(getWorldY()) != 0 );
+        System.out.println(getMovementWorldX());
+        System.out.println(getWorldX());
+
+        return isMoving() && getMovementWorldX().compareTo(getWorldX()) != 0 ||
+                getMovementWorldY().compareTo(getWorldY()) != 0;
     }
 
     private boolean checkIfCharacterIsFacingPosition() {
@@ -89,10 +95,12 @@ public class Player extends LivingEntity {
     }
 
     private void setMoving(boolean movement) {
+        switch (getDirection()){
+            case "up" -> setMovementWorldY(getWorldY().subtract(gamePanel.getTileSize()));
+            case "down" -> setMovementWorldY(getWorldY().add(gamePanel.getTileSize()));
+            case "left" -> setMovementWorldX(getWorldX().subtract(gamePanel.getTileSize()));
+            case "right" -> setMovementWorldX(getWorldX().add(gamePanel.getTileSize()));
+        }
         this.isMoving = movement;
-    }
-
-    private void setDesiredDirection(String direction) {
-        this.desiredDirection = direction;
     }
 }

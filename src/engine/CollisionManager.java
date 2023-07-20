@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import main.GamePanel;
 import models.EntityType;
 import models.LivingEntity;
-import models.Player;
 import objects.Object;
 import objects.ObjectManager;
 
