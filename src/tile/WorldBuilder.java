@@ -2,7 +2,7 @@ package tile;
 
 import lombok.Getter;
 import main.GamePanel;
-import models.LivingEntity;
+
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -30,7 +30,7 @@ public class WorldBuilder {
 
             tile[1] = new Tile(ImageIO.read(new File("resources/tiles/wall.png")), true, new Rectangle(0, 0, gamePanel.getTileSize().intValue(), gamePanel.getTileSize().intValue()));
 
-            tile[2] = new Tile(ImageIO.read(new File("resources/tiles/water01.png")),true, new Rectangle(0, 0, gamePanel.getTileSize().intValue(), gamePanel.getTileSize().intValue()));;
+            tile[2] = new Tile(ImageIO.read(new File("resources/tiles/water01.png")),true, new Rectangle(0, 0, gamePanel.getTileSize().intValue(), gamePanel.getTileSize().intValue()));
 
             tile[3] = new Tile(ImageIO.read(new File("resources/tiles/earth.png")), false, null);
 

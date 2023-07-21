@@ -3,16 +3,14 @@ package main;
 import engine.CollisionManager;
 import engine.KeyHandler;
 import lombok.*;
-import models.LivingEntity;
 import models.Player;
-import objects.Object;
+
 import objects.ObjectManager;
 import tile.WorldBuilder;
 
 import javax.swing.*;
 import java.awt.*;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 @Getter
 @Setter
@@ -20,12 +18,6 @@ public class GamePanel extends JPanel implements Runnable {
     private static final int FPS = 60;
 
     //TODO use a yaml file for global properties
-
-    /*
-    TODO
-        change public finals to private and make getters
-        changed private finals to caps
-     */
 
     //Screen settings
     private static final int ORIGINAL_TILE_SIZE = 16; //Sprite size

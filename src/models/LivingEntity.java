@@ -2,11 +2,11 @@ package models;
 
 import lombok.*;
 
-import java.awt.*;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import main.GamePanel;
+
 import objects.Object;
 
 @Getter

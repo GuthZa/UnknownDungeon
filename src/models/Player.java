@@ -35,21 +35,8 @@ public class Player extends LivingEntity {
             move(getDirection());
             return;
         }
-        if(keyHandler.isInteractPressed()) {
-            setDesiredMovement();
-            if (gamePanel.getObjectManager()
-                    .checkObjectAt(getMovementWorldX(), getMovementWorldY())) {
-                //Check this function not to give player the ability to remove items
-
-
-                Object obj = gamePanel.getObjectManager().
-                        getObjectAt(getMovementWorldX(), getMovementWorldY());
-                interactObject(obj);
-                gamePanel.getObjectManager().removeObject(obj);
-            }
-            cancelMovement();
-        }
-        if (isMovementKeyPressed()){ checkIfCharacterIsFacingPosition(); }
+        if(keyHandler.isInteractPressed()) { checkObjectInteractable(); }
+        if(isMovementKeyPressed()){ checkIfCharacterIsFacingPosition(); }
     }
     public void draw(Graphics2D g2) {
         g2.setColor(Color.white);
@@ -73,10 +60,12 @@ public class Player extends LivingEntity {
 
     private void checkCollision() {
         setDesiredMovement();
-        if(gamePanel.getCollisionManager()
-                .canMoveTo(getMovementWorldX(), getMovementWorldY()) &&
+        if(
+                gamePanel.getCollisionManager()
+                        .canMoveTo(getMovementWorldX(), getMovementWorldY()) &&
                 !gamePanel.getObjectManager()
-                        .checkObjectAt(getMovementWorldX(), getMovementWorldY())) {
+                        .checkObjectAt(getMovementWorldX(), getMovementWorldY())
+        ) {
             setMoving(true);
             move(getDirection());
             return;
@@ -98,6 +87,11 @@ public class Player extends LivingEntity {
         setDirection(desiredDirection);
     }
 
+    //functions to move / cast desired position to move
+    //By calling setDesiredMovement, you make the character move in the direction it's
+    //facing
+    //By calling setDesiredMovement and cancelMovement, you can check a block in front
+    //of the character
     private void cancelMovement() {
         setMovementWorldX(getWorldX());
         setMovementWorldY(getWorldY());
@@ -116,6 +110,26 @@ public class Player extends LivingEntity {
 
 
     //Object manager
+    private void checkObjectInteractable () {
+        setDesiredMovement();
+        if (gamePanel.getObjectManager()
+                .checkObjectAt(getMovementWorldX(), getMovementWorldY())) {
+            //Check this function not to give player the ability to remove items
+
+
+            Object obj = gamePanel.getObjectManager().
+                    getObjectAt(getMovementWorldX(), getMovementWorldY());
+
+            if(obj!=null) {
+                interactObject(obj);
+                gamePanel.getObjectManager().removeObject(obj);
+            } else {
+                System.out.println("Object passed is null");
+            }
+        }
+        cancelMovement();
+    }
+
     public void interactObject(Object object) {
         switch (object.getItemCategory()) {
             case Boots -> {

@@ -1,20 +1,11 @@
 package objects;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
 import main.GamePanel;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.security.Key;
 import java.util.ArrayList;
-import java.util.Objects;
 
 @Getter
 public class ObjectManager {
@@ -80,7 +71,7 @@ public class ObjectManager {
 
    public boolean checkObjectAt(BigDecimal worldX, BigDecimal worldY) {
        for (Object obj : objects) {
-           if(obj.getWorldX().equals(worldX) && obj.getWorldY().equals(worldY)) {
+           if(worldX.equals(obj.getWorldX()) && worldY.equals(obj.getWorldY())) {
                return true;
            }
        }
@@ -89,22 +80,11 @@ public class ObjectManager {
 
    public Object getObjectAt(BigDecimal worldX, BigDecimal worldY) {
        for (Object obj : objects) {
-           if(obj.getWorldX().equals(worldX) && obj.getWorldY().equals(worldY)) {
+           if(worldX.equals(obj.getWorldX()) && worldY.equals(obj.getWorldY())) {
                return obj;
            }
        }
        return null;
-   }
-
-   public int getObjectIndexAt(BigDecimal worldX, BigDecimal worldY) {
-        int index = 0;
-       for (Object obj : objects) {
-           if(obj.getWorldX().equals(worldX) && obj.getWorldY().equals(worldY)) {
-               return index;
-           }
-           index++;
-       }
-       return -1;
    }
 
    public void removeObject(Object object) {
