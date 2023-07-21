@@ -3,6 +3,8 @@ package main;
 import engine.CollisionManager;
 import engine.KeyHandler;
 import lombok.*;
+import models.Enemy;
+import models.EntityType;
 import models.Player;
 
 import objects.ObjectManager;
@@ -45,6 +47,15 @@ public class GamePanel extends JPanel implements Runnable {
 
     //Entities
     private final Player player = new Player(this, keyHandler);
+
+    //make it a list of enemies?
+    private Enemy enemy = new Enemy(
+            tileSize.multiply(BigDecimal.valueOf(25)),
+            tileSize.multiply(BigDecimal.valueOf(23)),
+            "left",
+            EntityType.Enemy,
+            this);
+
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -105,6 +116,7 @@ public class GamePanel extends JPanel implements Runnable {
         worldBuilder.draw(g2);
         objectManager.draw(g2);
         player.draw(g2);
+        enemy.draw(g2);
 
         g2.setColor(Color.red);
         g2.dispose();
