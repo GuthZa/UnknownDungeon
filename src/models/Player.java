@@ -3,6 +3,7 @@ package models;
 import engine.KeyHandler;
 import lombok.*;
 import main.GamePanel;
+import objects.ItemCategory;
 import objects.Object;
 
 import java.awt.*;
@@ -35,8 +36,12 @@ public class Player extends LivingEntity {
             move(getDirection());
             return;
         }
-        if(keyHandler.isInteractPressed()) { checkObjectInteractable(); }
-        if(isMovementKeyPressed()){ checkIfCharacterIsFacingPosition(); }
+        if(keyHandler.isInteractPressed()) {
+            checkObjectInteractable();
+        }
+        if(isMovementKeyPressed()){
+            checkIfCharacterIsFacingPosition();
+        }
     }
     public void draw(Graphics2D g2) {
         g2.setColor(Color.white);
@@ -121,8 +126,10 @@ public class Player extends LivingEntity {
                     getObjectAt(getMovementWorldX(), getMovementWorldY());
 
             if(obj!=null) {
-                interactObject(obj);
-                gamePanel.getObjectManager().removeObject(obj);
+                if(obj.getItemCategory() == ItemCategory.Door && getKeyNumber()>0) {
+                    interactObject(obj);
+                    gamePanel.getObjectManager().removeObject(obj);
+                }
             } else {
                 System.out.println("Object passed is null");
             }

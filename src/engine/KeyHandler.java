@@ -13,6 +13,7 @@ public class KeyHandler implements KeyListener {
     private boolean rightPressed;
     private boolean interactPressed;
     private boolean backPressed;
+    private boolean inventoryPressed = false;
 
     @Override
     public synchronized void keyPressed(KeyEvent e) {
@@ -28,6 +29,8 @@ public class KeyHandler implements KeyListener {
             interactPressed = true;
         else if(e.getKeyCode() == KeyEvent.VK_K)
             backPressed = true;
+        else if(e.getKeyCode() == KeyEvent.VK_I)
+            inventoryPressed = !inventoryPressed;
      }
 
     @Override

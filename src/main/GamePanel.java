@@ -9,6 +9,7 @@ import models.Player;
 
 import objects.ObjectManager;
 import tile.WorldBuilder;
+import ui.UI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,6 +45,9 @@ public class GamePanel extends JPanel implements Runnable {
     private WorldBuilder worldBuilder = new WorldBuilder(this);
     private ObjectManager objectManager = new ObjectManager(this);
     private CollisionManager collisionManager = new CollisionManager(this);
+
+    private UI ui = new UI(this);
+    Graphics2D g2;
 
     //Entities
     private final Player player = new Player(this, keyHandler);
@@ -105,20 +109,28 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         //Manage Player Movement
-        player.update();
+        if(!keyHandler.isInventoryPressed())
+            player.update();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Graphics2D g2 = (Graphics2D) g;
+        g2 = (Graphics2D) g;
 
         worldBuilder.draw(g2);
         objectManager.draw(g2);
         player.draw(g2);
         enemy.draw(g2);
+        ui.draw(g2);
+        if(keyHandler.isInventoryPressed())
+            ui.showInventory(g2);
 
         g2.setColor(Color.red);
         g2.dispose();
+    }
+
+    public void showInventory() {
+        ui.showInventory(g2);
     }
 }

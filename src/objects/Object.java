@@ -1,6 +1,5 @@
 package objects;
 
-
 import lombok.Getter;
 import lombok.Setter;
 import main.GamePanel;
@@ -23,6 +22,17 @@ public class Object {
         this.itemCategory = itemCategory;
         this.worldX = worldX;
         this.worldY = worldY;
+        try {
+            this.image = ImageIO.read(new FileInputStream("resources/objects/"+ this.itemCategory +".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Object(ItemCategory itemCategory) {
+        this.itemCategory = itemCategory;
+        worldX = BigDecimal.valueOf(-1);
+        worldY = BigDecimal.valueOf(-1);
         try {
             this.image = ImageIO.read(new FileInputStream("resources/objects/"+ this.itemCategory +".png"));
         } catch (IOException e) {
