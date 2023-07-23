@@ -37,7 +37,7 @@ public class Player extends LivingEntity {
             return;
         }
         if(keyHandler.isInteractPressed()) {
-            checkObjectInteractable();
+            checkObjectIsInteractable();
         }
         if(isMovementKeyPressed()){
             checkIfCharacterIsFacingPosition();
@@ -115,7 +115,7 @@ public class Player extends LivingEntity {
 
 
     //Object manager
-    private void checkObjectInteractable () {
+    private void checkObjectIsInteractable() {
         setDesiredMovement();
         if (gamePanel.getObjectManager()
                 .checkObjectAt(getMovementWorldX(), getMovementWorldY())) {
