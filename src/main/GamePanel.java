@@ -133,4 +133,21 @@ public class GamePanel extends JPanel implements Runnable {
     public void showInventory() {
         ui.showInventory(g2);
     }
+
+    //Movement
+    public boolean canMoveTo(BigDecimal worldX, BigDecimal worldY) {
+        return collisionManager.canMoveTo(worldX, worldY);
+    }
+
+    //Objects
+    public boolean checkObjectAt(BigDecimal worldX, BigDecimal worldY)
+    {
+        return objectManager.checkObjectAt(worldX, worldY);
+    }
+
+    public Object getObjectAt(BigDecimal worldX, BigDecimal worldY) {
+        return objectManager.getObjectAt(worldX, worldY);
+    }
+
+
 }

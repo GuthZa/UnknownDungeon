@@ -66,10 +66,8 @@ public class Player extends LivingEntity {
     private void checkCollision() {
         setDesiredMovement();
         if(
-                gamePanel.getCollisionManager()
-                        .canMoveTo(getMovementWorldX(), getMovementWorldY()) &&
-                !gamePanel.getObjectManager()
-                        .checkObjectAt(getMovementWorldX(), getMovementWorldY())
+                gamePanel.canMoveTo(getMovementWorldX(), getMovementWorldY()) &&
+                !gamePanel.checkObjectAt(getMovementWorldX(), getMovementWorldY())
         ) {
             setMoving(true);
             move(getDirection());
@@ -117,8 +115,7 @@ public class Player extends LivingEntity {
     //Object manager
     private void checkObjectIsInteractable() {
         setDesiredMovement();
-        if (gamePanel.getObjectManager()
-                .checkObjectAt(getMovementWorldX(), getMovementWorldY())) {
+        if (gamePanel.canMoveTo(getMovementWorldX(), getMovementWorldY()) {
             //Check this function not to give player the ability to remove items
 
 
