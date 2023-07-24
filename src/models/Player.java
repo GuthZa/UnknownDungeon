@@ -115,17 +115,16 @@ public class Player extends LivingEntity {
     //Object manager
     private void checkObjectIsInteractable() {
         setDesiredMovement();
-        if (gamePanel.canMoveTo(getMovementWorldX(), getMovementWorldY()) {
+        if (gamePanel.canMoveTo(getMovementWorldX(), getMovementWorldY())) {
             //Check this function not to give player the ability to remove items
 
 
-            Object obj = gamePanel.getObjectManager().
-                    getObjectAt(getMovementWorldX(), getMovementWorldY());
+            Object obj = gamePanel.getObjectAt(getMovementWorldX(), getMovementWorldY());
 
             if(obj!=null) {
                 if(obj.getItemCategory() == ItemCategory.Door && getKeyNumber()>0) {
                     interactObject(obj);
-                    gamePanel.getObjectManager().removeObject(obj);
+                    gamePanel.removeObject(obj);
                 }
             } else {
                 System.out.println("Object passed is null");

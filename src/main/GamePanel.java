@@ -7,7 +7,9 @@ import models.Enemy;
 import models.EntityType;
 import models.Player;
 
+import objects.Object;
 import objects.ObjectManager;
+import tile.Tile;
 import tile.WorldBuilder;
 import ui.UI;
 
@@ -149,5 +151,12 @@ public class GamePanel extends JPanel implements Runnable {
         return objectManager.getObjectAt(worldX, worldY);
     }
 
+    public void removeObject(Object object) {
+        objectManager.removeObject(object);
+    }
 
+    //Tile
+    public Tile getTileAt(BigDecimal worldX, BigDecimal worldY) {
+        return worldBuilder.getTileAt(worldX, worldY);
+    }
 }
