@@ -38,6 +38,7 @@ public class Player extends LivingEntity {
         }
         if(keyHandler.isInteractPressed()) {
             checkObjectIsInteractable();
+            checkEnemy();
         }
         if(isMovementKeyPressed()){
             checkIfCharacterIsFacingPosition();
@@ -67,7 +68,8 @@ public class Player extends LivingEntity {
         setDesiredMovement();
         if(
                 gamePanel.canMoveTo(getMovementWorldX(), getMovementWorldY()) &&
-                !gamePanel.checkObjectAt(getMovementWorldX(), getMovementWorldY())
+                !gamePanel.checkObjectAt(getMovementWorldX(), getMovementWorldY()) &&
+                !gamePanel.checkEnemyAt(getMovementWorldX(), getMovementWorldY())
         ) {
             setMoving(true);
             move(getDirection());
@@ -76,6 +78,13 @@ public class Player extends LivingEntity {
         cancelMovement();
     }
 
+    private void checkEnemy() {
+        setDesiredMovement();
+        if(gamePanel.checkEnemyAt(getMovementWorldX(), getMovementWorldY())) {
+            gamePanel.startCombat();
+        }
+        cancelMovement();
+    }
     private void checkIfCharacterIsFacingPosition() {
         if (keyHandler.isUpPressed()) {
             desiredDirection = "up";
@@ -115,17 +124,18 @@ public class Player extends LivingEntity {
     //Object manager
     private void checkObjectIsInteractable() {
         setDesiredMovement();
-        if (gamePanel.canMoveTo(getMovementWorldX(), getMovementWorldY())) {
+        if (gamePanel.checkObjectAt(getMovementWorldX(), getMovementWorldY())) {
             //Check this function not to give player the ability to remove items
 
 
             Object obj = gamePanel.getObjectAt(getMovementWorldX(), getMovementWorldY());
 
             if(obj!=null) {
-                if(obj.getItemCategory() == ItemCategory.Door && getKeyNumber()>0) {
-                    interactObject(obj);
-                    gamePanel.removeObject(obj);
+                if(obj.getItemCategory() == ItemCategory.Door && getKeyNumber()<=0) {
+                    cancelMovement();
+                    return;
                 }
+                gamePanel.givePlayerObject(this, obj);
             } else {
                 System.out.println("Object passed is null");
             }

@@ -5,6 +5,7 @@ import engine.KeyHandler;
 import lombok.*;
 import models.Enemy;
 import models.EntityType;
+import models.LivingEntity;
 import models.Player;
 
 import objects.Object;
@@ -136,9 +137,18 @@ public class GamePanel extends JPanel implements Runnable {
         ui.showInventory(g2);
     }
 
+    //Entity interaction
+    public void startCombat() {
+        ui.startCombat(g2);
+    }
+
     //Movement
     public boolean canMoveTo(BigDecimal worldX, BigDecimal worldY) {
         return collisionManager.canMoveTo(worldX, worldY);
+    }
+
+    public boolean checkEnemyAt(BigDecimal worldX, BigDecimal worldY) {
+        return collisionManager.checkEnemyAt(worldX, worldY);
     }
 
     //Objects
@@ -151,8 +161,13 @@ public class GamePanel extends JPanel implements Runnable {
         return objectManager.getObjectAt(worldX, worldY);
     }
 
-    public void removeObject(Object object) {
+    private void removeObject(Object object) {
         objectManager.removeObject(object);
+    }
+
+    public void givePlayerObject(Player player, Object object) {
+        player.interactObject(object);
+        removeObject(object);
     }
 
     //Tile
