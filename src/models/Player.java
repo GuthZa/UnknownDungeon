@@ -19,7 +19,6 @@ public class Player extends LivingEntity {
     private final GamePanel gamePanel;
     private final KeyHandler keyHandler;
 
-    private boolean isMoving = false;
     private boolean hasBoots = false;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
@@ -36,13 +35,12 @@ public class Player extends LivingEntity {
     }
 
     public void update() {
-        if(isMoving && !characterReachedPosition()) {
+        if(!characterReachedPosition()) {
             checkSpeed();
             move(getDirection());
             checkNextMovementOvershoot();
             return;
         }
-        if (characterReachedPosition()) setMoving(false);
 //        if(inCombat) {
 //            setInCombat(false);
 //        }
@@ -67,7 +65,6 @@ public class Player extends LivingEntity {
                 !gamePanel.checkObjectAt(getMovementWorldX(), getMovementWorldY()) &&
                 !gamePanel.checkEnemyAt(getMovementWorldX(), getMovementWorldY())
         ) {
-            setMoving(true);
             move(getDirection());
             return;
         }
@@ -165,9 +162,6 @@ public class Player extends LivingEntity {
     private void cancelMovement() {
         setMovementWorldX(getWorldX());
         setMovementWorldY(getWorldY());
-    }
-    private void setMoving(boolean movement) {
-        this.isMoving = movement;
     }
 
     //Object manager
