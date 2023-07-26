@@ -20,8 +20,6 @@ public class LivingEntity {
     private static final int PLAYER_COLLISION_WIDTH = 32;
     private static final int PLAYER_COLLISION_HEIGHT = 32;
 
-    private static final int BOOTS_SPEED_INCREASE = 2;
-
     private BigDecimal worldX, worldY;
     //Name TBD - position to help with checking collision and movement
     private BigDecimal movementWorldX, movementWorldY;
@@ -65,8 +63,5 @@ public class LivingEntity {
             case "left" -> worldX = worldX.subtract(speed);
             case "right" -> worldX = worldX.add(speed);
         }
-    }
-    protected void increaseSpeed() {
-         speed = speed.add(BigDecimal.valueOf(LivingEntity.BOOTS_SPEED_INCREASE));
     }
 }

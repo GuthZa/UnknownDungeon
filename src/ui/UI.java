@@ -14,9 +14,6 @@ public class UI {
     Font arial_40 = new Font("Arial", Font.PLAIN, 40);
     BufferedImage keyImage;
 
-    public boolean combat = false;
-    public String message = "";
-
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         Object key = new Object(ItemCategory.Key);
@@ -38,14 +35,5 @@ public class UI {
                 gamePanel.getTileSize()
                         .divide(BigDecimal.valueOf(2), RoundingMode.DOWN).intValue(), gamePanel.getTileSize().intValue(), gamePanel.getTileSize().intValue(), null);
         g2.drawString(" " + gamePanel.getPlayer().getKeyNumber(), 74, 65);
-
-        if(combat) {
-            g2.setColor(Color.black);
-            g2.drawRect(100, 100, gamePanel.getTileSize().intValue(), gamePanel.getTileSize().intValue());
-        }
-    }
-
-    public void startCombat(Graphics2D g2) {
-        combat = true;
     }
 }

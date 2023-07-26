@@ -13,11 +13,14 @@ import java.math.BigDecimal;
 public class Player extends LivingEntity {
     private static final String PLAYER_STARTING_DIRECTION = "right";
     private String desiredDirection = PLAYER_STARTING_DIRECTION;
+    private static final BigDecimal PLAYER_DEFAULT_SPEED = BigDecimal.valueOf(4);
+    private static final BigDecimal PLAYER_RUNNING_SPEED = PLAYER_DEFAULT_SPEED.add(BigDecimal.valueOf(2));
 
     private final GamePanel gamePanel;
     private final KeyHandler keyHandler;
 
     private boolean isMoving = false;
+    private boolean hasBoots = false;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel.getTileSize().multiply(BigDecimal.valueOf(23)),
@@ -26,6 +29,7 @@ public class Player extends LivingEntity {
                 EntityType.Player);
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
+        setSpeed(PLAYER_DEFAULT_SPEED);
 
         setScreenX(BigDecimal.valueOf(gamePanel.getScreenWidth() / 2 - (gamePanel.getTileSize().intValue() / 2)));
         setScreenY(BigDecimal.valueOf(gamePanel.getScreenHeight() / 2 - (gamePanel.getTileSize().intValue() / 2)));
@@ -33,9 +37,15 @@ public class Player extends LivingEntity {
 
     public void update() {
         if(isMoving && !characterReachedPosition()) {
+            checkSpeed();
             move(getDirection());
+            checkNextMovementOvershoot();
             return;
         }
+        if (characterReachedPosition()) setMoving(false);
+//        if(inCombat) {
+//            setInCombat(false);
+//        }
         if(keyHandler.isInteractPressed()) {
             checkObjectIsInteractable();
             checkEnemy();
@@ -48,20 +58,6 @@ public class Player extends LivingEntity {
         g2.setColor(Color.white);
         g2.fillRect(getScreenX().intValue(), getScreenY().intValue(), gamePanel.getTileSize().intValue(), gamePanel.getTileSize().intValue());
         g2.drawRect(getScreenX().intValue(), getScreenY().intValue(), gamePanel.getTileSize().intValue(), gamePanel.getTileSize().intValue());
-    }
-
-    private boolean isMovementKeyPressed() {
-        return  keyHandler.isUpPressed() ||
-                keyHandler.isDownPressed() ||
-                keyHandler.isLeftPressed() ||
-                keyHandler.isRightPressed();
-    }
-
-    //TODO Maybe change to state changer -> moving, standing, fighting, trading
-
-    private boolean characterReachedPosition() {
-        return getMovementWorldX().compareTo(getWorldX()) == 0 &&
-                getMovementWorldY().compareTo(getWorldY()) == 0;
     }
 
     private void checkCollision() {
@@ -81,9 +77,69 @@ public class Player extends LivingEntity {
     private void checkEnemy() {
         setDesiredMovement();
         if(gamePanel.checkEnemyAt(getMovementWorldX(), getMovementWorldY())) {
-            gamePanel.startCombat();
+            //swing at enemy for damage
         }
         cancelMovement();
+    }
+
+    //TODO redo movement
+    //if you run, the character moves continuously because it never reaches
+    //the casted position
+    //ex: 48 with speed of 4 -> 48/4 = 12 frames
+    //speed of 6 -> 8 frames
+    //if you change speed mid drawing it miss aligns
+    // 1 frame at 4 and all at 6 makes 46 -> 52 pixels
+
+    protected void checkSpeed() {
+        if(hasBoots && keyHandler.isBackPressed()) {
+            setSpeed(PLAYER_RUNNING_SPEED);
+            return;
+        }
+        setSpeed(PLAYER_DEFAULT_SPEED);
+    }
+
+    //functions to move / cast desired position to move
+    //By calling setDesiredMovement, you make the character move in the direction it's
+    //facing
+    //By calling setDesiredMovement and cancelMovement, you can check a block in front
+    //of the character
+    private boolean isMovementKeyPressed() {
+        return  keyHandler.isUpPressed() ||
+                keyHandler.isDownPressed() ||
+                keyHandler.isLeftPressed() ||
+                keyHandler.isRightPressed();
+    }
+    private boolean characterReachedPosition() {
+        return getMovementWorldX().compareTo(getWorldX()) == 0 &&
+                getMovementWorldY().compareTo(getWorldY()) == 0;
+    }
+    private void checkNextMovementOvershoot() {
+        switch (getDirection()) {
+            case "up" -> {
+                if(getWorldY().subtract(PLAYER_DEFAULT_SPEED).compareTo(getMovementWorldY()) < 0)
+                    setWorldY(getMovementWorldY());
+                if(getWorldY().subtract(PLAYER_RUNNING_SPEED).compareTo(getMovementWorldY()) < 0)
+                    setWorldY(getMovementWorldY());
+            }
+            case "down" -> {
+                if(getWorldY().add(PLAYER_DEFAULT_SPEED).compareTo(getMovementWorldY()) > 0)
+                    setWorldY(getMovementWorldY());
+                if(getWorldY().add(PLAYER_RUNNING_SPEED).compareTo(getMovementWorldY()) > 0)
+                    setWorldY(getMovementWorldY());
+            }
+            case "left" -> {
+                if(getWorldX().subtract(PLAYER_DEFAULT_SPEED).compareTo(getMovementWorldX()) < 0)
+                    setWorldX(getMovementWorldX());
+                if(getWorldX().subtract(PLAYER_RUNNING_SPEED).compareTo(getMovementWorldX()) < 0)
+                    setWorldX(getMovementWorldX());
+            }
+            case "right" -> {
+                if(getWorldX().add(PLAYER_DEFAULT_SPEED).compareTo(getMovementWorldX()) > 0)
+                    setWorldX(getMovementWorldX());
+                if(getWorldX().add(PLAYER_RUNNING_SPEED).compareTo(getMovementWorldX()) > 0)
+                    setWorldX(getMovementWorldX());
+            }
+        }
     }
     private void checkIfCharacterIsFacingPosition() {
         if (keyHandler.isUpPressed()) {
@@ -98,16 +154,6 @@ public class Player extends LivingEntity {
         if(desiredDirection.equals(getDirection())) checkCollision();
         setDirection(desiredDirection);
     }
-
-    //functions to move / cast desired position to move
-    //By calling setDesiredMovement, you make the character move in the direction it's
-    //facing
-    //By calling setDesiredMovement and cancelMovement, you can check a block in front
-    //of the character
-    private void cancelMovement() {
-        setMovementWorldX(getWorldX());
-        setMovementWorldY(getWorldY());
-    }
     private void setDesiredMovement() {
         switch (getDirection()){
             case "up" -> setMovementWorldY(getWorldY().subtract(gamePanel.getTileSize()));
@@ -116,10 +162,13 @@ public class Player extends LivingEntity {
             case "right" -> setMovementWorldX(getWorldX().add(gamePanel.getTileSize()));
         }
     }
+    private void cancelMovement() {
+        setMovementWorldX(getWorldX());
+        setMovementWorldY(getWorldY());
+    }
     private void setMoving(boolean movement) {
         this.isMoving = movement;
     }
-
 
     //Object manager
     private void checkObjectIsInteractable() {
@@ -146,7 +195,7 @@ public class Player extends LivingEntity {
     public void interactObject(Object object) {
         switch (object.getItemCategory()) {
             case Boots -> {
-                increaseSpeed();
+                hasBoots = true;
                 getObjectList().add(object);
             }
             case Key -> {
